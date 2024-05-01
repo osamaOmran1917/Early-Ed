@@ -3,10 +3,13 @@ class UserModel {
   String? id,
       userName,
       email,
-      type, // Type has to be one of these three strings ("st", "pa", "te") which refers to either student, parent or teacher. --- .يجب أن يكون النوع نص من هذه الثلاثة نصوص بين الأقواس.
+      type, // Type has to be one of these four strings ("st", "pa", "te", "ad") which refers to either student, parent or teacher. --- .يجب أن يكون النوع نص من هذه الأربعة نصوص بين الأقواس.
       parentOrChildName,
-      password;
-  List? mathGrades, scienceGrades, englishGrades, arabicGrades, feedbacks;
+      password,
+      imageUrl,
+      subject;
+  int? level, age;
+  List? mathGrades, scienceGrades, englishGrades, arabicGrades;
 
   UserModel(
       {this.id,
@@ -18,7 +21,11 @@ class UserModel {
       this.scienceGrades,
       this.englishGrades,
       this.arabicGrades,
-      this.password, this.feedbacks});
+      this.password,
+      this.imageUrl,
+      this.subject,
+      this.level,
+      this.age});
 
   UserModel.fromFireStore(Map<String, dynamic> data)
       : this(
@@ -31,7 +38,11 @@ class UserModel {
             scienceGrades: data['scienceGrades'],
             englishGrades: data['englishGrades'],
             arabicGrades: data['arabicGrades'],
-            password: data['password'], feedbacks: data['feedbacks']);
+            password: data['password'],
+            imageUrl: data['imageUrl'],
+            subject: data['subject'],
+            level: data['level'],
+            age: data['age']);
 
   Map<String, dynamic> toFireStore() {
     return {
@@ -45,7 +56,10 @@ class UserModel {
       'englishGrades': englishGrades,
       'arabicGrades': arabicGrades,
       'password': password,
-      'feedbacks': feedbacks
+      'imageUrl': imageUrl,
+      'subject': subject,
+      'level': level,
+      'age': age
     };
   }
 }

@@ -128,8 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
       var userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
       userDataProvider.setData('arabicGrades', retrievedUser?.arabicGrades?.map((item) => item.toString()).toList());
       userDataProvider.setData('email', retrievedUser?.email);
+      userDataProvider.setData('imageUrl', retrievedUser?.imageUrl);
+      userDataProvider.setData('subject', retrievedUser?.subject);
+      userDataProvider.setData('level', retrievedUser?.level);
+      userDataProvider.setData('age', retrievedUser?.age);
       userDataProvider.setData('englishGrades', retrievedUser?.englishGrades?.map((item) => item.toString()).toList());
-      userDataProvider.setData('feedbacks', retrievedUser?.feedbacks?.map((item) => item.toString()).toList());
       userDataProvider.setData('userName', retrievedUser?.userName);
       userDataProvider.setData('id', retrievedUser?.id);
       userDataProvider.setData('mathGrades', retrievedUser?.mathGrades?.map((item) => item.toString()).toList());

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:early_ed/screens/Home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Grades extends StatefulWidget {
@@ -38,7 +39,7 @@ class _GradesState extends State<Grades> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 100.h,
         // leading: IconButton(
         //   icon: const Icon(Icons.home,size: 35,),
         //   onPressed: () {
@@ -55,8 +56,8 @@ class _GradesState extends State<Grades> {
           children: [
             Image.asset(
               "assets/images/EARLYED.png",
-              width: 150,
-              height: 100,
+              width: 150.w,
+              height: 100.h,
               fit: BoxFit.fill,
             ),
           ],
@@ -71,39 +72,37 @@ class _GradesState extends State<Grades> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 0),
+            padding: EdgeInsets.symmetric(horizontal: 50.w),
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               "GRADES",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 40.h,
                 color: Colors.black,
               ),
             ),
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            width: 280,
-            height: 80,
-            padding: const EdgeInsets.all(15),
-            alignment: Alignment.topCenter,
+            width: 280.w,
+            height: 80.h,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               border: Border.all(color: Colors.blueAccent)
             ),
             child: Text(
-                "Science   $mathGrade/50",
-              style: const TextStyle(
-                fontSize: 35,
+                "Math   $mathGrade/50",
+              style: TextStyle(
+                fontSize: 35.h,
                 color: Colors.black
               )
             )
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            width: 280,
-            height: 80,
-            padding: const EdgeInsets.all(15),
+            width: 280.w,
+            height: 80.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
@@ -111,17 +110,16 @@ class _GradesState extends State<Grades> {
             ),
             child: Text(
               "Science   $scienceGrade/50",
-              style: const TextStyle(
-                fontSize: 35,
+              style: TextStyle(
+                fontSize: 35.h,
                 color: Colors.black,
               ),
             ),
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            width: 280,
-            height: 80,
-            padding: const EdgeInsets.all(15),
+            width: 280.w,
+            height: 80.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
@@ -129,17 +127,16 @@ class _GradesState extends State<Grades> {
             ),
             child: Text(
               "English $englishGrade/50",
-              style: const TextStyle(
-                fontSize: 35,
+              style: TextStyle(
+                fontSize: 35.h,
                 color: Colors.black,
               ),
             ),
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            width: 280,
-            height: 80,
-            padding: const EdgeInsets.all(15),
+            width: 280.w,
+            height: 80.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
@@ -147,8 +144,8 @@ class _GradesState extends State<Grades> {
             ),
             child: Text(
               "Arabic   $arabicGrade/50",
-              style: const TextStyle(
-                fontSize: 35,
+              style: TextStyle(
+                fontSize: 35.h,
                 color: Colors.black,
               ),
             ),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  String userName = '', email = '', id = '', parentOrChildName = '', password = '', type = '';
-  List<String> arabicGrades = [], englishGrades = [], feedbacks = [], mathGrades = [], scienceGrades = [];
+  String userName = '', email = '', id = '', parentOrChildName = '', password = '', type = '', imageUrl = '', subject = '';
+  int level = 0, age = 0;
+  List<String> arabicGrades = [], englishGrades = [], mathGrades = [], scienceGrades = [];
 
   void setData(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -18,6 +19,30 @@ class UserDataProvider extends ChangeNotifier {
         {
           type = value;
           prefs.setString(key, type);
+          break;
+        }
+      case 'imageUrl':
+        {
+          imageUrl = value;
+          prefs.setString(key, imageUrl);
+          break;
+        }
+      case 'subject':
+        {
+          subject = value;
+          prefs.setString(key, subject);
+          break;
+        }
+      case 'age':
+        {
+          age = value;
+          prefs.setInt(key, age);
+          break;
+        }
+      case 'level':
+        {
+          level = value;
+          prefs.setInt(key, level);
           break;
         }
       case 'password':
@@ -66,12 +91,6 @@ class UserDataProvider extends ChangeNotifier {
         {
           email = value;
           prefs.setString(key, email);
-          break;
-        }
-      case 'feedbacks':
-        {
-          feedbacks = value;
-          prefs.setStringList(key, feedbacks);
           break;
         }
     }
