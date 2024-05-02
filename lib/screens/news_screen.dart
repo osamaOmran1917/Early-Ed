@@ -7,6 +7,8 @@ import 'package:early_ed/widgets/news_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../model/user_model.dart';
+
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
 
@@ -68,21 +70,23 @@ class NewsScreen extends StatelessWidget {
                   var data = snapshot.data?.docs.map((e) => e.data()).toList();
                   return ListView.builder(
                     itemBuilder: (buildContext, index) {
-                      return NewsWidget(news: data[index]);
+                      return NewsWidget(news: data![index]);
                     },
-                    itemCount: data!.length,
+                    itemCount: data?.length,
                   );
                 },
               ))
             ])),
-        floatingActionButton: IconButton(
-            //only if Admin
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddNews()));
-            },
-            icon: const Icon(Icons.add_circle),
-            iconSize: 40));
+        floatingActionButton: isAdelAdmin
+            ? IconButton(
+                //only if Admin
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const AddNews()));
+                },
+                icon: const Icon(Icons.add_circle),
+                iconSize: 40)
+            : null);
   }
 }
 

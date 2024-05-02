@@ -1,3 +1,48 @@
+enum Person {
+  student,
+  parent,
+  teacher,
+  admin,
+  unknown,
+}
+
+const Person momen = Person.admin;
+const Person adel = Person.teacher;
+const Person osama = Person.admin;
+const bool isAdelAdmin = adel == Person.admin ? true : false;
+
+Person convertStringToEnum(String value) {
+  if (value == 'st') {
+    return Person.student;
+  } else if (value == 'pa') {
+    return Person.parent;
+  } else if (value == 'te') {
+    return Person.teacher;
+  }
+  else if (value == 'ad') {
+    return Person.admin;
+  }
+  else {
+    return Person.unknown;
+
+  }
+}
+
+String convertEnumToString(Person value) {
+  switch (value) {
+    case Person.student:
+      return 'st';
+    case Person.parent:
+      return 'pa';
+    case Person.teacher:
+      return 'te';
+    case Person.admin:
+      return 'ad';
+    default:
+      return 'unknown';
+  }
+}
+
 class UserModel {
   static const String collectionName = 'users';
   String? id,
@@ -8,6 +53,7 @@ class UserModel {
       password,
       imageUrl,
       subject;
+  Person? type1;
   int? level, age;
   List? mathGrades, scienceGrades, englishGrades, arabicGrades;
 
@@ -25,7 +71,8 @@ class UserModel {
       this.imageUrl,
       this.subject,
       this.level,
-      this.age});
+      this.age,
+      this.type1});
 
   UserModel.fromFireStore(Map<String, dynamic> data)
       : this(

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:early_ed/database/user_data_provider.dart';
 import 'package:early_ed/screens/Home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Grades extends StatefulWidget {
@@ -37,9 +39,11 @@ class _GradesState extends State<Grades> {
 
   @override
   Widget build(BuildContext context) {
+    var userDataProvider=Provider.of<UserDataProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100.h,
+
         // leading: IconButton(
         //   icon: const Icon(Icons.home,size: 35,),
         //   onPressed: () {
@@ -92,7 +96,7 @@ class _GradesState extends State<Grades> {
               border: Border.all(color: Colors.blueAccent)
             ),
             child: Text(
-                "Math   $mathGrade/50",
+                "Math   ${userDataProvider.mathGrades[0]} /50",
               style: TextStyle(
                 fontSize: 35.h,
                 color: Colors.black

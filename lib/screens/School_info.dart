@@ -1,6 +1,7 @@
 import 'package:early_ed/screens/Home_screen.dart';
 import 'package:early_ed/screens/login_screen.dart';
 import 'package:early_ed/widgets/circular_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SchoolInfo extends StatelessWidget {
@@ -115,6 +116,7 @@ class SchoolInfo extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 ),
                 onPressed: () {
+                  FirebaseAuth.instance.signOut();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
