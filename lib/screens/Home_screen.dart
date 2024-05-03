@@ -1,5 +1,5 @@
 import 'package:early_ed/database/user_data_provider.dart';
-import 'package:early_ed/screens/Calendar.dart';
+import 'package:early_ed/screens/attendance.dart';
 import 'package:early_ed/screens/School_info.dart';
 import 'package:early_ed/screens/Student_info.dart';
 import 'package:early_ed/screens/grades_screen.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
         ),
         title: Text(
           "EARLYED -- ${userDataProvider.userName}",
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
         ),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Calendar(),
+                      builder: (context) => const Attendance(),
                     ));
               },
               child: Container(
