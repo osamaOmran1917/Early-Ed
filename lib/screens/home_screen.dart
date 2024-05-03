@@ -1,16 +1,63 @@
 import 'package:early_ed/database/user_data_provider.dart';
-import 'package:early_ed/screens/attendance.dart';
 import 'package:early_ed/screens/School_info.dart';
 import 'package:early_ed/screens/Student_info.dart';
+import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
 import 'package:early_ed/screens/news_screen.dart';
 import 'package:early_ed/screens/user_chats/user_chats.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const String routeName = 'Home Screen';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String userName = '',
+      userEmail = '',
+      userId = '',
+      parentOrChild = '',
+      password = '',
+      subject = '',
+      type = '',
+      userImageUrl = '';
+  int age = 0, level = 0;
+  List<String> mathGrades = [],
+      englishGrades = [],
+      scienceGrades = [],
+      arabicGrades = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  // استرجاع البيانات المحفوظة عند تحميل الصفحة
+  void loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      userEmail = prefs.getString('userEmail') ?? '';
+      userId = prefs.getString('userId') ?? '';
+      parentOrChild = prefs.getString('parentOrChild') ?? '';
+      password = prefs.getString('password') ?? '';
+      subject = prefs.getString('subject') ?? '';
+      type = prefs.getString('type') ?? '';
+      userImageUrl = prefs.getString('userImageUrl') ?? '';
+      age = prefs.getInt('age') ?? 0;
+      level = prefs.getInt('level') ?? 0;
+      mathGrades = prefs.getStringList('mathGrades') ?? [];
+      arabicGrades = prefs.getStringList('arabicGrades') ?? [];
+      scienceGrades = prefs.getStringList('scienceGrades') ?? [];
+      englishGrades = prefs.getStringList('englishGrades') ?? [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +72,7 @@ class HomeScreen extends StatelessWidget {
               bottomLeft: Radius.circular(25)),
         ),
         title: Text(
-          "EARLYED -- ${userDataProvider.userName}",
+          "EARLYED -- ${userName}",
           style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
         ),
         centerTitle: true,
@@ -54,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Grades(),
+                      builder: (context) => Grades(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
                     ));
               },
               child: Container(
@@ -81,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Attendance(),
+                      builder: (context) => const AttendanceScreen(),
                     ));
               },
               child: Container(

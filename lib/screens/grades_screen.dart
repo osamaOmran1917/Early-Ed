@@ -1,45 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:early_ed/database/my_database.dart';
 import 'package:early_ed/database/user_data_provider.dart';
-import 'package:early_ed/screens/Home_screen.dart';
+import 'package:early_ed/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Grades extends StatefulWidget {
-  const Grades({super.key});
-
-  @override
-  State<Grades> createState() => _GradesState();
-}
-
-class _GradesState extends State<Grades> {
-
-  String mathGrade = '', scienceGrade = '', englishGrade = '', arabicGrade = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _getGrades();
-  }
-
-  _getGrades() async {
-    final s = await SharedPreferences.getInstance();
-    var id = s.getString('id') ?? '';
-    var documentSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(id)
-        .get();
-    var data = documentSnapshot.data();
-    mathGrade = data!['mathGrades'][0];
-    scienceGrade = data['scienceGrades'][0];
-    englishGrade = data['englishGrades'][0];
-    arabicGrade = data['arabicGrades'][0];
-  }
+class Grades extends StatelessWidget {
+  const Grades({super.key, required this.math, required this.arabic, required this.english, required this.science});
+  final List<String> math, arabic, english, science;
 
   @override
   Widget build(BuildContext context) {
-    var userDataProvider=Provider.of<UserDataProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100.h,
@@ -96,7 +68,7 @@ class _GradesState extends State<Grades> {
               border: Border.all(color: Colors.blueAccent)
             ),
             child: Text(
-                "Math   ${userDataProvider.mathGrades[0]} /50",
+                "Math   ${math[0]}/50",
               style: TextStyle(
                 fontSize: 35.h,
                 color: Colors.black
@@ -113,7 +85,7 @@ class _GradesState extends State<Grades> {
               border: Border.all(color: Colors.blueAccent),
             ),
             child: Text(
-              "Science   $scienceGrade/50",
+              "Science   ${science[0]}/50",
               style: TextStyle(
                 fontSize: 35.h,
                 color: Colors.black,
@@ -130,7 +102,7 @@ class _GradesState extends State<Grades> {
               border: Border.all(color: Colors.blueAccent),
             ),
             child: Text(
-              "English $englishGrade/50",
+              "English ${english[0]}/50",
               style: TextStyle(
                 fontSize: 35.h,
                 color: Colors.black,
@@ -147,7 +119,7 @@ class _GradesState extends State<Grades> {
               border: Border.all(color: Colors.blueAccent),
             ),
             child: Text(
-              "Arabic   $arabicGrade/50",
+              "Arabic   ${arabic[0]}/50",
               style: TextStyle(
                 fontSize: 35.h,
                 color: Colors.black,

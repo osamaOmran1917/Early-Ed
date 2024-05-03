@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:jiffy/jiffy.dart';
 
-class Attendance extends StatefulWidget {
-  const Attendance({super.key});
+class AttendanceScreen extends StatefulWidget {
+  const AttendanceScreen({super.key});
 
   @override
-  State<Attendance> createState() => _AttendanceState();
+  State<AttendanceScreen> createState() => _AttendanceScreenState();
 }
 
-class _AttendanceState extends State<Attendance> {
+class _AttendanceScreenState extends State<AttendanceScreen> {
   var today = Jiffy.now().MMMd;
   var dayName = Jiffy.now().E;
 

@@ -21,19 +21,4 @@ class MyDataBase {
     var res = await docRef.get();
     return res.data();
   }
-
-  static Stream<QuerySnapshot<NewsModel>> listenForNewsRealTimeUpdates() {
-    return getNewsCollection()
-        .snapshots();
-  }
-
-  static CollectionReference<NewsModel> getNewsCollection() {
-    return FirebaseFirestore.instance
-        .collection(NewsModel.collectionName)
-        .withConverter<NewsModel>(fromFirestore: ((snapshot, options) {
-      return NewsModel.fromFireStore(snapshot.data()!);
-    }), toFirestore: (newsModel, options) {
-      return newsModel.toFireStore();
-    });
-  }
 }

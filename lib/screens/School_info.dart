@@ -1,5 +1,5 @@
-import 'package:early_ed/screens/Home_screen.dart';
-import 'package:early_ed/screens/login_screen.dart';
+import 'package:early_ed/screens/auth/auth_screen.dart';
+import 'package:early_ed/screens/home_screen.dart';
 import 'package:early_ed/widgets/circular_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +120,7 @@ class SchoolInfo extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => AuthScreen(),
                       ));
                 },
               ),

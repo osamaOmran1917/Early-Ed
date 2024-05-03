@@ -1,6 +1,6 @@
 import 'package:early_ed/database/my_database.dart';
-import 'package:early_ed/screens/Home_screen.dart';
-import 'package:early_ed/screens/login_screen.dart';
+import 'package:early_ed/screens/auth/auth_screen.dart';
+import 'package:early_ed/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushNamedAndRemoveUntil(
             context,
             auth.currentUser != null? HomeScreen.routeName
-                : LoginScreen.routeName,
+                : AuthScreen.routeName,
             (route) => false));
   }
 

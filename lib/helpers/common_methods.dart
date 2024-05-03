@@ -1,6 +1,6 @@
 import 'package:early_ed/database/my_database.dart';
 import 'package:early_ed/helpers/shared_data.dart';
-import 'package:early_ed/screens/login_screen.dart';
+import 'package:early_ed/screens/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,5 +17,5 @@ logOut(BuildContext context) async{
   await auth.signOut();
   SharedPreferences s = await SharedPreferences.getInstance();
   s.clear();
-  Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+  Navigator.pushNamedAndRemoveUntil(context, AuthScreen.routeName, (route) => false);
 }

@@ -6,7 +6,6 @@ import 'package:early_ed/screens/add_news.dart';
 import 'package:early_ed/widgets/news_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../model/user_model.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -55,24 +54,25 @@ class NewsScreen extends StatelessWidget {
                           fontSize: 30,
                           color: Colors.black))),
               Expanded(
-                  child: StreamBuilder<QuerySnapshot<NewsModel>>(
-                stream: MyDataBase.listenForNewsRealTimeUpdates(),
-                builder: (buildContext, snapshot) {
-                  /*if (snapshot.hasError) {
-                    return const Text('Error Loading Data, Please Try Again Later');
-                  } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  child: StreamBuilder(
+                stream:
+                    FirebaseFirestore.instance.collection('news').snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
                     return const Center(
                         child: SizedBox(
                             width: 40,
                             height: 40,
                             child: CircularProgressIndicator()));
-                  }*/
-                  var data = snapshot.data?.docs.map((e) => e.data()).toList();
-                  return ListView.builder(
-                    itemBuilder: (buildContext, index) {
-                      return NewsWidget(news: data![index]);
-                    },
-                    itemCount: data?.length,
+                  }
+                  return ListView(
+                    children: snapshot.data!.docs.map((document) {
+                      return NewsWidget(
+                          news: NewsModel(
+                              imageUrl: document['imageUrl'],
+                              id: document['id'],
+                              details: document['details']));
+                    }).toList(),
                   );
                 },
               ))

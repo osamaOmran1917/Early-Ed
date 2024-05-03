@@ -1,12 +1,19 @@
+import 'dart:developer';
+
+import 'package:early_ed/database/my_database.dart';
+import 'package:early_ed/database/user_data_provider.dart';
+import 'package:early_ed/helpers/shared_data.dart';
+import 'package:early_ed/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../auth/components/forgot_password.dart';
 import '../auth/components/login_signup.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
+  static const String routeName = 'Auth Screen';
 
   @override
   AuthScreenState createState() => AuthScreenState();
@@ -35,7 +42,8 @@ class AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
-      } else {
+      }
+      else {
         authResult = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
         await FirebaseFirestore.instance
@@ -56,6 +64,29 @@ class AuthScreenState extends State<AuthScreen> {
         authResult.user!.updatePhotoURL(
             "https://www12.0zz0.com/2021/05/21/20/865510145.png");
         authResult.user!.updateDisplayName(username);
+      }
+      log(authResult.user?.uid ?? 'nullllll');
+      var retrievedUser =
+      await MyDataBase.getUserById(authResult.user?.uid ?? '');
+      var userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
+      userDataProvider.setData('arabicGrades', (retrievedUser?.arabicGrades??[]).map((item) => item.toString()).toList());
+      userDataProvider.setData('userEmail', retrievedUser?.userEmail ?? '');
+      userDataProvider.setData('userImageUrl', retrievedUser?.userImageUrl ?? '');
+      userDataProvider.setData('subject', retrievedUser?.subject ?? '');
+      userDataProvider.setData('level', retrievedUser?.level ?? 0);
+      userDataProvider.setData('age', retrievedUser?.age ?? 0);
+      userDataProvider.setData('englishGrades', (retrievedUser?.englishGrades??[]).map((item) => item.toString()).toList());
+      userDataProvider.setData('userName', retrievedUser?.userName ?? '');
+      userDataProvider.setData('userId', retrievedUser?.userId ?? '');
+      userDataProvider.setData('mathGrades', (retrievedUser?.mathGrades??[]).map((item) => item.toString()).toList());
+      userDataProvider.setData('parentOrChildName', retrievedUser?.parentOrChildName ?? '');
+      userDataProvider.setData('password', retrievedUser?.password ?? '');
+      userDataProvider.setData('scienceGrades', (retrievedUser?.scienceGrades ??[]).map((item) => item.toString()).toList());
+      userDataProvider.setData('type', retrievedUser?.type ?? '');
+      if (retrievedUser != null) {
+        SharedData.user = retrievedUser;
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
       }
     } on FirebaseAuthException catch (e) {
       String message = "internet connection error.";

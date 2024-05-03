@@ -44,23 +44,23 @@ String convertEnumToString(Person value) {
 }
 
 class UserModel {
-  static const String collectionName = 'users';
-  String? id,
+  static const String collectionName = 'userslist';
+  String? userId,
       userName,
-      email,
+      userEmail,
       type, // Type has to be one of these four strings ("st", "pa", "te", "ad") which refers to either student, parent or teacher. --- .يجب أن يكون النوع نص من هذه الأربعة نصوص بين الأقواس.
       parentOrChildName,
       password,
-      imageUrl,
+      userImageUrl,
       subject;
   Person? type1;
   int? level, age;
   List? mathGrades, scienceGrades, englishGrades, arabicGrades;
 
   UserModel(
-      {this.id,
+      {this.userId,
       this.userName,
-      this.email,
+      this.userEmail,
       this.type,
       this.parentOrChildName,
       this.mathGrades,
@@ -68,7 +68,7 @@ class UserModel {
       this.englishGrades,
       this.arabicGrades,
       this.password,
-      this.imageUrl,
+      this.userImageUrl,
       this.subject,
       this.level,
       this.age,
@@ -76,9 +76,9 @@ class UserModel {
 
   UserModel.fromFireStore(Map<String, dynamic> data)
       : this(
-            id: data['id'],
+            userId: data['userId'],
             userName: data['userName'],
-            email: data['email'],
+            userEmail: data['userEmail'],
             type: data['type'],
             parentOrChildName: data['parentOrChildName'],
             mathGrades: data['mathGrades'],
@@ -86,16 +86,16 @@ class UserModel {
             englishGrades: data['englishGrades'],
             arabicGrades: data['arabicGrades'],
             password: data['password'],
-            imageUrl: data['imageUrl'],
+            userImageUrl: data['userImageUrl'],
             subject: data['subject'],
             level: data['level'],
             age: data['age']);
 
   Map<String, dynamic> toFireStore() {
     return {
-      'id': id,
+      'userId': userId,
       'userName': userName,
-      'email': email,
+      'userEmail': userEmail,
       'type': type,
       'parentOrChildName': parentOrChildName,
       'mathGrades': mathGrades,
@@ -103,7 +103,7 @@ class UserModel {
       'englishGrades': englishGrades,
       'arabicGrades': arabicGrades,
       'password': password,
-      'imageUrl': imageUrl,
+      'userImageUrl': userImageUrl,
       'subject': subject,
       'level': level,
       'age': age
