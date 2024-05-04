@@ -1,21 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:early_ed/database/my_database.dart';
-import 'package:early_ed/database/user_data_provider.dart';
 import 'package:early_ed/model/news_model.dart';
 import 'package:early_ed/screens/add_news.dart';
 import 'package:early_ed/widgets/news_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../model/user_model.dart';
 
 class NewsScreen extends StatelessWidget {
-  const NewsScreen({super.key});
+  const NewsScreen({super.key, required this.canEdit});
 
-  final bool isAdmin = true;
+  final bool canEdit;
 
   @override
   Widget build(BuildContext context) {
-    var userDataProvider = Provider.of<UserDataProvider>(context);
     return Scaffold(
         appBar: AppBar(
             toolbarHeight: 100,
@@ -71,7 +67,7 @@ class NewsScreen extends StatelessWidget {
                           news: NewsModel(
                               imageUrl: document['imageUrl'],
                               id: document['id'],
-                              details: document['details']));
+                              details: document['details']), canEdit: canEdit);
                     }).toList(),
                   );
                 },

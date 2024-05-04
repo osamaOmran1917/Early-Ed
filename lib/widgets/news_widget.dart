@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsWidget extends StatelessWidget {
-  const NewsWidget({super.key, required this.news});
+  const NewsWidget({super.key, required this.news, required this.canEdit});
   final NewsModel news;
+  final bool canEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class NewsWidget extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NewsDetailsScreen(news: news),
+                    builder: (context) => NewsDetailsScreen(news: news, canEdit: canEdit,),
                   ));
             },
             child: const Text("Read more.."))

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:early_ed/database/user_data_provider.dart';
 import 'package:early_ed/screens/School_info.dart';
 import 'package:early_ed/screens/Student_info.dart';
@@ -101,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Grades(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
+                      builder: (context) => GradesScreen(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
                     ));
               },
               child: Container(
@@ -155,8 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NewsScreen(),
+                      builder: (context) => NewsScreen(canEdit: type == 'ad' || type == 'te'),
                     ));
+                log(type);
               },
               child: Container(
                 margin:
