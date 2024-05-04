@@ -21,4 +21,9 @@ class MyDataBase {
     var res = await docRef.get();
     return res.data();
   }
+
+  static updateGrades(String userId, String grades, List<String> newGrades) {
+    CollectionReference ref = getUsersCollection();
+    ref.doc(userId).update({grades: newGrades});
+  }
 }
