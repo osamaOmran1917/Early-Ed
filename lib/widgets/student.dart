@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:early_ed/model/user_model.dart';
+import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Student extends StatelessWidget {
-  const Student({super.key, required this.student});
+  const Student({super.key, required this.student, required this.isGrades});
   final UserModel student;
+  final bool isGrades;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class Student extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => GradesScreen(
+                  builder: (_) => isGrades? GradesScreen(
                       math: student.mathGrades
                               ?.map((e) => e.toString())
                               .toList() ??
@@ -32,7 +34,7 @@ class Student extends StatelessWidget {
                       science: student.scienceGrades
                               ?.map((e) => e.toString())
                               .toList() ??
-                          [])));
+                          []): AttendanceScreen(studentId: student.userId,)));
         },
         leading: ClipRRect(
             borderRadius: BorderRadius.circular(20),

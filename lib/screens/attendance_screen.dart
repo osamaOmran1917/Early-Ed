@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+  const AttendanceScreen({super.key, this.studentId});
+  final studentId;
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -15,13 +16,7 @@ class AttendanceScreen extends StatefulWidget {
 class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
-        floatingActionButton: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.edit),
-          iconSize: 40,
-        ),
         appBar: AppBar(
           toolbarHeight: 100,
           shape: const RoundedRectangleBorder(
@@ -63,7 +58,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       child: StreamBuilder<DocumentSnapshot>(
                         stream: firestore
                             .collection('userslist')
-                            .doc(auth.currentUser!.uid)
+                            .doc(widget.studentId ?? auth.currentUser!.uid)
                             .snapshots(),
                         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -91,12 +86,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           );
                         },
                       )
-                  )
-                  // TableCalendar(
-                  //   lastDay: DateTime.utc(2030, 10, 5),
-                  //   firstDay: DateTime.utc(2010, 10, 5),
-                  //   focusedDay: today,
-                  // ),
-                ])));
+                  )])));
   }
 }

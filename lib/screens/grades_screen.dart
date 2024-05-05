@@ -173,7 +173,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Math   ${mathGrade ?? widget.math[0]}/50",
+                child: Text("Math   ${widget.math[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
           GestureDetector(
@@ -255,7 +255,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Arabic   ${arabicGrade ?? widget.arabic[0]}/50",
+                child: Text("Arabic   ${widget.arabic[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
           GestureDetector(
@@ -337,7 +337,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Science   ${scienceGrade ?? widget.science[0]}/50",
+                child: Text("Science   ${widget.science[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
           GestureDetector(
@@ -419,7 +419,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("English   ${englishGrade ?? widget.english[0]}/50",
+                child: Text("English   ${widget.english[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
           const Spacer(),

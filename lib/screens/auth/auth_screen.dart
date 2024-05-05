@@ -82,7 +82,7 @@ class AuthScreenState extends State<AuthScreen> {
       userDataProvider.setData('parentOrChildName', retrievedUser?.parentOrChildName ?? '');
       userDataProvider.setData('password', retrievedUser?.password ?? '');
       userDataProvider.setData('scienceGrades', (retrievedUser?.scienceGrades ??[]).map((item) => item.toString()).toList());
-      userDataProvider.setData('may', (retrievedUser?.may ??[]).map((item) => item.toString()).toList());
+      userDataProvider.setData('May', (retrievedUser?.May ??[]).map((item) => item.toString()).toList());
       userDataProvider.setData('type', retrievedUser?.type ?? '');
       if (retrievedUser != null) {
         SharedData.user = retrievedUser;

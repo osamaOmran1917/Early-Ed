@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> mathGrades = [],
       englishGrades = [],
       scienceGrades = [],
-      arabicGrades = [], may = [];
+        arabicGrades = [], May = [];
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       arabicGrades = prefs.getStringList('arabicGrades') ?? [];
       scienceGrades = prefs.getStringList('scienceGrades') ?? [];
       englishGrades = prefs.getStringList('englishGrades') ?? [];
-      may = prefs.getStringList('may') ?? [];
+      May = prefs.getStringList('May') ?? [];
     });
   }
 
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => (type == 'ad' || type == 'te')? const SelectLevelScreen(): GradesScreen(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
+                      builder: (context) => (type == 'ad' || type == 'te')? const SelectLevelScreen(isGrades: true,): GradesScreen(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
                     ));
               },
               child: Container(
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AttendanceScreen(),
+                      builder: (context) => (type == 'st' || type == 'pa')? const AttendanceScreen(): const SelectLevelScreen(isGrades: false,),
                     ));
               },
               child: Container(
