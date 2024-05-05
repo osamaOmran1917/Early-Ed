@@ -69,4 +69,25 @@ class MyDataBase {
     CollectionReference ref = getUsersCollection();
     ref.doc(userId).update({month: newAttendance});
   }
+
+  static Future<void> addNews(NewsModel news) {
+    var newsCollection = getNewsCollection();
+    var doc = newsCollection.doc(); //create new doc
+    news.id = doc.id;
+    news;
+    return doc.set(news); // get doc -> then set //update
+  }
+
+  static Future<void> addNewsImage(NewsModel news, File file) async {
+    final ext = file.path.split('.').last;
+    log('Extensions: $ext');
+    final ref = storage.ref().child('news_pictures/${news.id}.$ext');
+    await ref
+        .putFile(file, SettableMetadata(contentType: 'image/$ext'))
+        .then((p0) {
+      log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+    });
+    String image = await ref.getDownloadURL();
+    await firestore.collection('news').doc(news.id).update({'imageUrl': image});
+  }
 }

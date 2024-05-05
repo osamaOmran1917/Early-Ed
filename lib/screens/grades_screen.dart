@@ -11,8 +11,9 @@ class GradesScreen extends StatefulWidget {
       required this.math,
       required this.arabic,
       required this.english,
-      required this.science});
+      required this.science, required this.studentId, required this.type, required this.subject});
   final List<String> math, arabic, english, science;
+  final String studentId, type, subject;
 
   @override
   State<GradesScreen> createState() => _GradesScreenState();
@@ -26,7 +27,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
   GlobalKey<FormState> formKey = GlobalKey();
 
-  String? mathGrade, arabicGrade, englishGrade, scienceGrade, type;
+  String? mathGrade, arabicGrade, englishGrade, scienceGrade, type, subject;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _GradesScreenState extends State<GradesScreen> {
       scienceGrade = data['scienceGrades'][0];
       englishGrade = data['englishGrades'][0];
       type = data['type'];
+      subject= data['subject'];
     });
   }
 
@@ -95,7 +97,7 @@ class _GradesScreenState extends State<GradesScreen> {
               ),
             ),
           ),
-          GestureDetector(
+          if(type != 'te' || subject == 'math')GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
                 showDialog(
@@ -142,7 +144,7 @@ class _GradesScreenState extends State<GradesScreen> {
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               MyDataBase.updateGrades(
-                                  auth.currentUser!.uid,
+                                  widget.studentId,
                                   'mathGrades',
                                   [mathController.text.trim().toString()]);
                               mathGrade = mathController.text.trim().toString();
@@ -176,7 +178,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: Text("Math   ${widget.math[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
-          GestureDetector(
+          if(type != 'te' || subject == 'arabic')GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
                 showDialog(
@@ -258,7 +260,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: Text("Arabic   ${widget.arabic[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
-          GestureDetector(
+          if(type != 'te' || subject == 'science')GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
                 showDialog(
@@ -340,7 +342,7 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: Text("Science   ${widget.science[0]}/50",
                     style: TextStyle(fontSize: 35.h, color: Colors.black))),
           ),
-          GestureDetector(
+          if(type != 'te' || subject == 'english')GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
                 showDialog(

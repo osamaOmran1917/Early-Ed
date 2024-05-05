@@ -73,12 +73,12 @@ class NewsScreen extends StatelessWidget {
                 },
               ))
             ])),
-        floatingActionButton: isAdelAdmin
+        floatingActionButton: canEdit
             ? IconButton(
                 //only if Admin
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const AddNews()));
+                      MaterialPageRoute(builder: (context) => AddNews(canEdit: canEdit,)));
                 },
                 icon: const Icon(Icons.add_circle),
                 iconSize: 40)

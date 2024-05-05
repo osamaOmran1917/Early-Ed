@@ -1,7 +1,23 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+import 'dart:io';
 
-class AddNews extends StatelessWidget {
-  const AddNews({super.key});
+import 'package:early_ed/database/my_database.dart';
+import 'package:early_ed/model/news_model.dart';
+import 'package:early_ed/screens/news_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class AddNews extends StatefulWidget {
+  AddNews({super.key, required this.canEdit});
+  final bool canEdit;
+
+  @override
+  State<AddNews> createState() => _AddNewsState();
+}
+
+class _AddNewsState extends State<AddNews> {
+  String? _image;
+  TextEditingController controller =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +57,18 @@ class AddNews extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            _image != null
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  MediaQuery.of(context).size.height * .1),
+              child: Image.file(
+                File(_image!),
+                width: MediaQuery.of(context).size.height * .2,
+                height: MediaQuery.of(context).size.height * .2,
+                fit: BoxFit.cover,
+              ),
+            )
+                : Container(),
             ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(
@@ -55,7 +83,17 @@ class AddNews extends StatelessWidget {
                             const Text("Choose your Image",
                               style: TextStyle(fontSize: 20, ),),
                             InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  final ImagePicker picker = ImagePicker();
+                                  final XFile? image = await picker.pickImage(
+                                      source: ImageSource.gallery, imageQuality: 80);
+                                  if (image != null) {
+                                    log('Image path: ${image.path} -- MimeType ${image.mimeType}');
+                                    setState(() {
+                                      _image = image.path;
+                                    });
+                                  }
+                                },
                                 child: Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.all(10),
@@ -70,7 +108,17 @@ class AddNews extends StatelessWidget {
                                   ),
                                 )),
                             InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  final ImagePicker picker = ImagePicker();
+                                  final XFile? image = await picker.pickImage(
+                                      source: ImageSource.camera, imageQuality: 80);
+                                  if (image != null) {
+                                    log('Image path: ${image.path} -- MimeType ${image.mimeType}');
+                                    setState(() {
+                                      _image = image.path;
+                                    });
+                                  }
+                                },
                                 child: Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.all(10),
@@ -92,6 +140,7 @@ class AddNews extends StatelessWidget {
                 },
                 child: const Text("Upload Image")),
             TextFormField(
+              controller: controller,
               minLines: 1,
               maxLines: 8,
               decoration: const InputDecoration(
@@ -99,55 +148,18 @@ class AddNews extends StatelessWidget {
                 fillColor: Colors.white,
                 hintText: "type here",
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+            ElevatedButton(onPressed: () {
+              NewsModel newModel = NewsModel(details: controller.text.trim(), imageUrl: _image);
+              if(_image != null) MyDataBase.addNewsImage(newModel, File(_image!));
+              MyDataBase.addNews(newModel);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewsScreen(canEdit: widget.canEdit)));
+            }, child: const Text('submit'))
+          ]
+        )
+      )
     );
   }
-
-// modelBottomSheet() {
-//    showModalBottomSheet(
-//       context:context,
-//       builder: (BuildContext context) {
-//         return Container(
-//           padding: const EdgeInsets.all(10),
-//           height: 100,
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const Text("Choose your Image"),
-//               InkWell(
-//                   onTap: () {},
-//                   child: Container(
-//                     width: double.infinity,
-//                     padding: const EdgeInsets.all(10),
-//                     child: const Row(
-//                       children: [
-//                         Icon(Icons.photo),
-//                         Text("From Gallery", style: TextStyle(
-//                             fontSize: 20
-//                         ),)
-//                       ],
-//                     ),
-//                   )),
-//               InkWell(
-//                   onTap: () {},
-//                   child: Container(
-//                     width: double.infinity,
-//                     padding: const EdgeInsets.all(10),
-//                     child: const Row(
-//                       children: [
-//                         Icon(Icons.camera_alt_outlined),
-//                         Text("From Camera", style: TextStyle(
-//                             fontSize: 20
-//                         ),)
-//                       ],
-//                     ),
-//                   )),
-//             ],
-//           ),
-//         );
-//       });
-// }
 }

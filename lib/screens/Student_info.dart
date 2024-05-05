@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StudentInfo extends StatelessWidget {
-  const StudentInfo({super.key, required this.userName, required this.age, required this.imageUrl});
+  const StudentInfo(
+      {super.key,
+      required this.userName,
+      required this.age,
+      required this.imageUrl,
+      required this.level});
   final String userName, imageUrl;
-  final int age;
+  final int age, level;
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +68,11 @@ class StudentInfo extends StatelessWidget {
                     imageUrl: imageUrl,
                     // errorWidget: (context, url, error) => const CustomImage(imagePath: AppAssets.errorImage),
                     // placeholder: (context, url) => const CustomImage(imagePath: AppAssets.placeholder),
-                    progressIndicatorBuilder: (context, url, progress) => SizedBox(
-                        width: 200.w,
-                        child: const Center(child: CircularProgressIndicator())))),
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        SizedBox(
+                            width: 200.w,
+                            child: const Center(
+                                child: CircularProgressIndicator())))),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
               alignment: Alignment.center,
@@ -85,9 +92,19 @@ class StudentInfo extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               alignment: Alignment.center,
-              child: const Text(
-                "SIX GRADE",
-                style: TextStyle(color: Colors.white, fontSize: 30),
+              child: Text(
+                level == 1
+                    ? 'First Grade'
+                    : level == 2
+                        ? 'Second Grade'
+                        : level == 3
+                            ? 'Third Grade'
+                            : level == 4
+                                ? 'Fourth Grade'
+                                : level == 5
+                                    ? 'Fifth Grade'
+                                    : 'Sixth Grade',
+                style: const TextStyle(color: Colors.white, fontSize: 30),
               ),
             ),
             Container(

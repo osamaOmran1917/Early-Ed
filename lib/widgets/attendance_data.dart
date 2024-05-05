@@ -1,5 +1,4 @@
 import 'package:early_ed/database/my_database.dart';
-import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
@@ -10,8 +9,8 @@ class AttendanceData extends StatelessWidget {
       required this.day,
       required this.date,
       required this.present,
-      required this.attendance, required this.index});
-  final String day, date;
+      required this.attendance, required this.index, required this.studentId, required this.type});
+  final String day, date, studentId, type;
   final bool present;
   final List attendance;
   final int index;
@@ -34,10 +33,10 @@ class AttendanceData extends StatelessWidget {
                   backgroundColor:
                       present ? Colors.greenAccent : Colors.redAccent),
               onPressed: () {
-                attendance[index] = present? '0': '1';
-                MyDataBase.updateAttendance(
-                    auth.currentUser!.uid, Jiffy.now().MMM, attendance);
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const AttendanceScreen()));
+                if(type == 'ad' || type == 'te') {
+                  attendance[index] = present ? '0' : '1';
+                  MyDataBase.updateAttendance(studentId, 'weekAtt', attendance);
+                }
               },
               child: Text(present ? 'Present' : "Absent"))
         ]));

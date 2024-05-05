@@ -6,8 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key, this.studentId});
+  const AttendanceScreen({super.key, this.studentId, required this.type});
   final studentId;
+  final String type;
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -61,9 +62,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             .doc(widget.studentId ?? auth.currentUser!.uid)
                             .snapshots(),
                         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          /*if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: CircularProgressIndicator());
-                          }
+                          }*/
                           if (snapshot.hasError) {
                             return Center(child: Text('Error: ${snapshot.error}'));
                           }
@@ -75,14 +76,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           return ListView.builder(
                             itemBuilder: (buildContext, index) {
                               return AttendanceData(
-                                day: Jiffy.now().subtract(days: data['May'].length - 1 - index).E,
-                                date: Jiffy.now().subtract(days: data['May'].length - 1 - index).MMMd,
-                                present: data['May'][index] == '1',
-                                attendance: data['May'].map((item) => item.toString()).toList(),
-                                index: index,
+                                day: Jiffy.now().subtract(days: data['weekAtt'].length - 1 - index).E,
+                                date: Jiffy.now().subtract(days: data['weekAtt'].length - 1 - index).MMMd,
+                                present: data['weekAtt'][index] == '1',
+                                attendance: data['weekAtt'].map((item) => item.toString()).toList(),
+                                index: index, studentId: widget.studentId,
+                                type: widget.type,
                               );
                             },
-                            itemCount: data['May'].length,
+                            itemCount: data['weekAtt'].length,
                           );
                         },
                       )
