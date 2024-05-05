@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserDataProvider extends ChangeNotifier {
   String userName = '', userEmail = '', userId = '', parentOrChildName = '', password = '', type = '', userImageUrl = '', subject = '';
   int level = 0, age = 0;
-  List<String> arabicGrades = [], englishGrades = [], mathGrades = [], scienceGrades = [];
+  List<String> arabicGrades = [], englishGrades = [], mathGrades = [], scienceGrades = [], may = [];
 
   void setData(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -85,6 +85,12 @@ class UserDataProvider extends ChangeNotifier {
         {
           englishGrades = value;
           prefs.setStringList(key, englishGrades);
+          break;
+        }
+      case 'may':
+        {
+          may = value;
+          prefs.setStringList(key, may);
           break;
         }
       case 'userEmail':

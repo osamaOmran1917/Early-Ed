@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 
 class NewsDetailsScreen extends StatefulWidget {
-  NewsDetailsScreen({super.key, required this.news, required this.canEdit});
+  const NewsDetailsScreen({super.key, required this.news, required this.canEdit});
   final NewsModel news;
   final bool canEdit;
 

@@ -55,7 +55,7 @@ class UserModel {
       subject;
   Person? type1;
   int? level, age;
-  List? mathGrades, scienceGrades, englishGrades, arabicGrades;
+  List? mathGrades, scienceGrades, englishGrades, arabicGrades, may;
 
   UserModel(
       {this.userId,
@@ -72,7 +72,7 @@ class UserModel {
       this.subject,
       this.level,
       this.age,
-      this.type1});
+      this.type1, this.may});
 
   UserModel.fromFireStore(Map<String, dynamic> data)
       : this(
@@ -89,7 +89,7 @@ class UserModel {
             userImageUrl: data['userImageUrl'],
             subject: data['subject'],
             level: data['level'],
-            age: data['age']);
+            age: data['age'], may: data['may']);
 
   Map<String, dynamic> toFireStore() {
     return {
@@ -106,7 +106,8 @@ class UserModel {
       'userImageUrl': userImageUrl,
       'subject': subject,
       'level': level,
-      'age': age
+      'age': age,
+      'may': may
     };
   }
 }

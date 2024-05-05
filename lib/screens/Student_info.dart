@@ -1,15 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:early_ed/helpers/common_methods.dart';
-import 'package:early_ed/widgets/circular_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StudentInfo extends StatelessWidget {
-  const StudentInfo({super.key});
+  const StudentInfo({super.key, required this.userName, required this.age, required this.imageUrl});
+  final String userName, imageUrl;
+  final int age;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 100.h,
         // leading: IconButton(
         //   icon: const Icon(
         //     Icons.home,
@@ -28,7 +31,7 @@ class StudentInfo extends StatelessWidget {
             Image.asset(
               "assets/images/EARLYED.png",
               width: 150,
-              height: 100,
+              height: 100.h,
               fit: BoxFit.fill,
             ),
           ],
@@ -45,40 +48,42 @@ class StudentInfo extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               alignment: Alignment.center,
               child: const Text(
                 "STUDENT INFO",
                 style: TextStyle(color: Colors.white, fontSize: 36),
               ),
             ),
-            Container(
-                margin: const EdgeInsets.all(10),
-                width: 200,
-                height: 200,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                child: const CircularProfile(
-                  image: AssetImage("assets/images/student.jpg"),
-                )),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              alignment: Alignment.center,
-              child: const Text(
-                "EMILIA SMITH",
-                style: TextStyle(color: Colors.white, fontSize: 36),
-              ),
-            ),
+            ClipOval(
+                child: CachedNetworkImage(
+                    fit: BoxFit.contain,
+                    height: 200.h,
+                    width: 200.w,
+                    imageUrl: imageUrl,
+                    // errorWidget: (context, url, error) => const CustomImage(imagePath: AppAssets.errorImage),
+                    // placeholder: (context, url) => const CustomImage(imagePath: AppAssets.placeholder),
+                    progressIndicatorBuilder: (context, url, progress) => SizedBox(
+                        width: 200.w,
+                        child: const Center(child: CircularProgressIndicator())))),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
               alignment: Alignment.center,
-              child: const Text(
-                "12 YEARS OLD",
-                style: TextStyle(color: Colors.white, fontSize: 33),
+              child: Text(
+                userName,
+                style: const TextStyle(color: Colors.white, fontSize: 36),
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
+              alignment: Alignment.center,
+              child: Text(
+                "$age YEARS OLD",
+                style: const TextStyle(color: Colors.white, fontSize: 33),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               alignment: Alignment.center,
               child: const Text(
                 "SIX GRADE",
@@ -86,7 +91,7 @@ class StudentInfo extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 70),
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 70.h),
               // height:100 ,
               alignment: Alignment.bottomCenter,
               child: FilledButton(

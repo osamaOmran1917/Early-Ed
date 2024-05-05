@@ -55,4 +55,18 @@ class MyDataBase {
     CollectionReference ref = getNewsCollection();
     ref.doc(newsId).update({'details': details});
   }
+
+  static Stream<QuerySnapshot<UserModel>>
+  listenForStudentsRealTimeUpdatesDependingOnLevel(int level) {
+    // Listen for realtime update
+    return getUsersCollection()
+        .where('level', isEqualTo: level)
+        .where('type', isEqualTo: 'st')
+        .snapshots();
+  }
+
+  static updateAttendance(String userId, String month, List newAttendance) {
+    CollectionReference ref = getUsersCollection();
+    ref.doc(userId).update({month: newAttendance});
+  }
 }

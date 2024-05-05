@@ -5,6 +5,7 @@ import 'package:early_ed/screens/Student_info.dart';
 import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
 import 'package:early_ed/screens/news_screen.dart';
+import 'package:early_ed/screens/select_level_screen.dart';
 import 'package:early_ed/screens/user_chats/user_chats.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> mathGrades = [],
       englishGrades = [],
       scienceGrades = [],
-      arabicGrades = [];
+      arabicGrades = [], may = [];
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       arabicGrades = prefs.getStringList('arabicGrades') ?? [];
       scienceGrades = prefs.getStringList('scienceGrades') ?? [];
       englishGrades = prefs.getStringList('englishGrades') ?? [];
+      may = prefs.getStringList('may') ?? [];
     });
   }
 
@@ -102,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GradesScreen(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
+                      builder: (context) => (type == 'ad' || type == 'te')? const SelectLevelScreen(): GradesScreen(math: mathGrades, arabic: arabicGrades, english: englishGrades, science: scienceGrades)
                     ));
               },
               child: Container(
@@ -184,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const StudentInfo(),
+                      builder: (context) => StudentInfo(userName: userName, age: age, imageUrl: userImageUrl,),
                     ));
               },
               child: Container(

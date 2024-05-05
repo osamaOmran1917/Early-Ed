@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import '../all_users/all_users.dart';
+import '../all_users/all_users_screen.dart';
 import '../chat/friend_chat_screen.dart';
 
 class MyChat extends StatefulWidget {
@@ -34,7 +34,7 @@ class _MyChatState extends State<MyChat> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AllUsers(),
+                    builder: (context) => const AllUsersScreen(),
                   ));
             },
             icon: const Icon(Icons.group_add_outlined),
