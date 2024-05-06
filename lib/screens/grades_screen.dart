@@ -11,7 +11,10 @@ class GradesScreen extends StatefulWidget {
       required this.math,
       required this.arabic,
       required this.english,
-      required this.science, required this.studentId, required this.type, required this.subject});
+      required this.science,
+      required this.studentId,
+      required this.type,
+      required this.subject});
   final List<String> math, arabic, english, science;
   final String studentId, type, subject;
 
@@ -47,7 +50,7 @@ class _GradesScreenState extends State<GradesScreen> {
       scienceGrade = data['scienceGrades'][0];
       englishGrade = data['englishGrades'][0];
       type = data['type'];
-      subject= data['subject'];
+      subject = data['subject'];
     });
   }
 
@@ -97,241 +100,306 @@ class _GradesScreenState extends State<GradesScreen> {
               ),
             ),
           ),
-          if(type != 'te' || subject == 'math')GestureDetector(
+          GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
-                showDialog(
-                  context: context,
-                  builder: (_) => Form(
-                    key: formKey,
-                    child: AlertDialog(
-                      contentPadding: EdgeInsets.only(
-                          left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      title: Row(children: [
-                        const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                          size: 28,
-                        ),
-                        SizedBox(width: 7.w),
-                        const Text('Edit Grade')
-                      ]),
-                      content: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: mathController,
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          return null;
-                        },
-                        decoration:
-                            const InputDecoration(hintText: 'Math Grade'),
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'cancel',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
+                if (type != 'te' || subject == 'math') {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Form(
+                      key: formKey,
+                      child: AlertDialog(
+                        contentPadding: EdgeInsets.only(
+                            left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        title: Row(children: [
+                          const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                            size: 28,
                           ),
-                        ),
-                        MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              MyDataBase.updateGrades(
-                                  widget.studentId,
-                                  'mathGrades',
-                                  [mathController.text.trim().toString()]);
-                              mathGrade = mathController.text.trim().toString();
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setStringList('mathGrades',
-                                  [mathController.text.trim().toString()]);
-                              Navigator.pop(context);
-                              setState(() {});
+                          SizedBox(width: 7.w),
+                          const Text('Edit Grade')
+                        ]),
+                        content: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: mathController,
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please enter a value';
                             }
+                            return null;
                           },
-                          child: const Text(
-                            'save',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
-                          ),
+                          decoration:
+                              const InputDecoration(hintText: 'Math Grade'),
                         ),
-                      ],
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'cancel',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                MyDataBase.updateGrades(
+                                    widget.studentId,
+                                    'mathGrades',
+                                    [mathController.text.trim().toString()]);
+                                mathGrade =
+                                    mathController.text.trim().toString();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setStringList('mathGrades',
+                                    [mathController.text.trim().toString()]);
+                                Navigator.pop(context);
+                                setState(() {});
+                              }
+                            },
+                            child: const Text(
+                              'save',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }
             },
             child: Container(
                 margin: const EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                 width: 280.w,
                 height: 80.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Math   ${widget.math[0]}/50",
-                    style: TextStyle(fontSize: 35.h, color: Colors.black))),
+                child: StreamBuilder<DocumentSnapshot>(
+                  stream: firestore
+                      .collection('userslist')
+                      .doc(widget.studentId)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    /*if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }*/
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const Center(child: Text('No data found'));
+                    }
+
+                    var data = snapshot.data!;
+                    return ListView.builder(
+                      itemBuilder: (buildContext, index) {
+                        return Text("Math   ${data['mathGrades'][0]}/50",
+                            style:
+                                TextStyle(fontSize: 35.h, color: Colors.black));
+                      },
+                      itemCount: data['mathGrades'].length,
+                    );
+                  },
+                )),
           ),
-          if(type != 'te' || subject == 'arabic')GestureDetector(
+          GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
-                showDialog(
-                  context: context,
-                  builder: (_) => Form(
-                    key: formKey,
-                    child: AlertDialog(
-                      contentPadding: EdgeInsets.only(
-                          left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      title: Row(children: [
-                        const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                          size: 28,
-                        ),
-                        SizedBox(width: 7.w),
-                        const Text('Edit Grade')
-                      ]),
-                      content: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: arabicController,
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          return null;
-                        },
-                        decoration:
-                            const InputDecoration(hintText: 'Arabic Grade'),
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'cancel',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
+                if (type != 'te' || subject == 'arabic') {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Form(
+                      key: formKey,
+                      child: AlertDialog(
+                        contentPadding: EdgeInsets.only(
+                            left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        title: Row(children: [
+                          const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                            size: 28,
                           ),
-                        ),
-                        MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              MyDataBase.updateGrades(
-                                  auth.currentUser!.uid,
-                                  'arabicGrades',
-                                  [arabicController.text.trim().toString()]);
-                              arabicGrade =
-                                  arabicController.text.trim().toString();
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setStringList('arabicGrades',
-                                  [arabicController.text.trim().toString()]);
-                              Navigator.pop(context);
-                              setState(() {});
+                          SizedBox(width: 7.w),
+                          const Text('Edit Grade')
+                        ]),
+                        content: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: arabicController,
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please enter a value';
                             }
+                            return null;
                           },
-                          child: const Text(
-                            'save',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
-                          ),
+                          decoration:
+                              const InputDecoration(hintText: 'Arabic Grade'),
                         ),
-                      ],
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'cancel',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                MyDataBase.updateGrades(
+                                    auth.currentUser!.uid,
+                                    'arabicGrades',
+                                    [arabicController.text.trim().toString()]);
+                                arabicGrade =
+                                    arabicController.text.trim().toString();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setStringList('arabicGrades',
+                                    [arabicController.text.trim().toString()]);
+                                Navigator.pop(context);
+                                setState(() {});
+                              }
+                            },
+                            child: const Text(
+                              'save',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }
             },
             child: Container(
                 margin: const EdgeInsets.all(20),
                 width: 280.w,
                 height: 80.h,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Arabic   ${widget.arabic[0]}/50",
-                    style: TextStyle(fontSize: 35.h, color: Colors.black))),
+                child: StreamBuilder<DocumentSnapshot>(
+                  stream: firestore
+                      .collection('userslist')
+                      .doc(widget.studentId)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    /*if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }*/
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const Center(child: Text('No data found'));
+                    }
+
+                    var data = snapshot.data!;
+                    return ListView.builder(
+                      itemBuilder: (buildContext, index) {
+                        return Text("Arabic   ${data['arabicGrades'][0]}/50",
+                            style:
+                            TextStyle(fontSize: 35.h, color: Colors.black));
+                      },
+                      itemCount: data['arabicGrades'].length,
+                    );
+                  },
+                )),
           ),
-          if(type != 'te' || subject == 'science')GestureDetector(
+          GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
-                showDialog(
-                  context: context,
-                  builder: (_) => Form(
-                    key: formKey,
-                    child: AlertDialog(
-                      contentPadding: EdgeInsets.only(
-                          left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      title: Row(children: [
-                        const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                          size: 28,
-                        ),
-                        SizedBox(width: 7.w),
-                        const Text('Edit Grade')
-                      ]),
-                      content: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: scienceController,
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          return null;
-                        },
-                        decoration:
-                            const InputDecoration(hintText: 'Science Grade'),
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'cancel',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
+                if (type != 'te' || subject == 'science') {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Form(
+                      key: formKey,
+                      child: AlertDialog(
+                        contentPadding: EdgeInsets.only(
+                            left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        title: Row(children: [
+                          const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                            size: 28,
                           ),
-                        ),
-                        MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              MyDataBase.updateGrades(
-                                  auth.currentUser!.uid,
-                                  'scienceGrades',
-                                  [scienceController.text.trim().toString()]);
-                              scienceGrade =
-                                  scienceController.text.trim().toString();
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setStringList('scienceGrades',
-                                  [scienceController.text.trim().toString()]);
-                              Navigator.pop(context);
-                              setState(() {});
+                          SizedBox(width: 7.w),
+                          const Text('Edit Grade')
+                        ]),
+                        content: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: scienceController,
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please enter a value';
                             }
+                            return null;
                           },
-                          child: const Text(
-                            'save',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
-                          ),
+                          decoration:
+                              const InputDecoration(hintText: 'Science Grade'),
                         ),
-                      ],
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'cancel',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                MyDataBase.updateGrades(
+                                    auth.currentUser!.uid,
+                                    'scienceGrades',
+                                    [scienceController.text.trim().toString()]);
+                                scienceGrade =
+                                    scienceController.text.trim().toString();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setStringList('scienceGrades',
+                                    [scienceController.text.trim().toString()]);
+                                setState(() {});
+                              }
+                            },
+                            child: const Text(
+                              'save',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }
             },
             child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
                 margin: const EdgeInsets.all(20),
                 width: 280.w,
                 height: 80.h,
@@ -339,81 +407,111 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("Science   ${widget.science[0]}/50",
-                    style: TextStyle(fontSize: 35.h, color: Colors.black))),
+                child: StreamBuilder<DocumentSnapshot>(
+                  stream: firestore
+                      .collection('userslist')
+                      .doc(widget.studentId)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    /*if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }*/
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const Center(child: Text('No data found'));
+                    }
+
+                    var data = snapshot.data!;
+                    return ListView.builder(
+                      itemBuilder: (buildContext, index) {
+                        return Text("Science   ${data['scienceGrades'][0]}/50",
+                            style:
+                            TextStyle(fontSize: 35.h, color: Colors.black));
+                      },
+                      itemCount: data['scienceGrades'].length,
+                    );
+                  },
+                )),
           ),
-          if(type != 'te' || subject == 'english')GestureDetector(
+          GestureDetector(
             onTap: () {
               if (type == 'ad' || type == 'te') {
-                showDialog(
-                  context: context,
-                  builder: (_) => Form(
-                    key: formKey,
-                    child: AlertDialog(
-                      contentPadding: EdgeInsets.only(
-                          left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      title: Row(children: [
-                        const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                          size: 28,
-                        ),
-                        SizedBox(width: 7.w),
-                        const Text('Edit Grade')
-                      ]),
-                      content: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: englishController,
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          return null;
-                        },
-                        decoration:
-                            const InputDecoration(hintText: 'English Grade'),
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'cancel',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
+                if (type != 'te' || subject == 'english') {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Form(
+                      key: formKey,
+                      child: AlertDialog(
+                        contentPadding: EdgeInsets.only(
+                            left: 24.w, right: 24.w, top: 20.h, bottom: 10.h),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        title: Row(children: [
+                          const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                            size: 28,
                           ),
-                        ),
-                        MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              MyDataBase.updateGrades(
-                                  auth.currentUser!.uid,
-                                  'englishGrades',
-                                  [englishController.text.trim().toString()]);
-                              englishGrade =
-                                  englishController.text.trim().toString();
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setStringList('englishGrades',
-                                  [englishController.text.trim().toString()]);
-                              Navigator.pop(context);
-                              setState(() {});
+                          SizedBox(width: 7.w),
+                          const Text('Edit Grade')
+                        ]),
+                        content: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: englishController,
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please enter a value';
                             }
+                            return null;
                           },
-                          child: const Text(
-                            'save',
-                            style: TextStyle(color: Colors.blue, fontSize: 16),
-                          ),
+                          decoration:
+                              const InputDecoration(hintText: 'English Grade'),
                         ),
-                      ],
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'cancel',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                MyDataBase.updateGrades(
+                                    auth.currentUser!.uid,
+                                    'englishGrades',
+                                    [englishController.text.trim().toString()]);
+                                englishGrade =
+                                    englishController.text.trim().toString();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setStringList('englishGrades',
+                                    [englishController.text.trim().toString()]);
+                                Navigator.pop(context);
+                                setState(() {});
+                              }
+                            },
+                            child: const Text(
+                              'save',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }
             },
             child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
                 margin: const EdgeInsets.all(20),
                 width: 280.w,
                 height: 80.h,
@@ -421,8 +519,33 @@ class _GradesScreenState extends State<GradesScreen> {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(color: Colors.blueAccent)),
-                child: Text("English   ${widget.english[0]}/50",
-                    style: TextStyle(fontSize: 35.h, color: Colors.black))),
+                child: StreamBuilder<DocumentSnapshot>(
+                  stream: firestore
+                      .collection('userslist')
+                      .doc(widget.studentId)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    /*if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }*/
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const Center(child: Text('No data found'));
+                    }
+
+                    var data = snapshot.data!;
+                    return ListView.builder(
+                      itemBuilder: (buildContext, index) {
+                        return Text("English   ${data['englishGrades'][0]}/50",
+                            style:
+                            TextStyle(fontSize: 35.h, color: Colors.black));
+                      },
+                      itemCount: data['englishGrades'].length,
+                    );
+                  },
+                )),
           ),
           const Spacer(),
           Row(

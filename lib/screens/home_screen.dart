@@ -5,7 +5,7 @@ import 'package:early_ed/screens/School_info.dart';
 import 'package:early_ed/screens/Student_info.dart';
 import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
-import 'package:early_ed/screens/news_screen.dart';
+import 'package:early_ed/screens/news/news_screen.dart';
 import 'package:early_ed/screens/select_level_screen.dart';
 import 'package:early_ed/screens/user_chats/user_chats.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          NewsScreen(canEdit: type == 'ad' || type == 'te'),
+                          NewsScreen(canEdit: type == 'ad'),
                     ));
                 log(type);
               },

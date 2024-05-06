@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:early_ed/model/news_model.dart';
-import 'package:early_ed/screens/news_details_screen.dart';
+import 'package:early_ed/screens/news/news_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

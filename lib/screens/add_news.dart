@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:early_ed/database/my_database.dart';
 import 'package:early_ed/model/news_model.dart';
-import 'package:early_ed/screens/news_screen.dart';
+import 'package:early_ed/screens/news/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

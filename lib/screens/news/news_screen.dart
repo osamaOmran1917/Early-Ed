@@ -3,7 +3,7 @@ import 'package:early_ed/model/news_model.dart';
 import 'package:early_ed/screens/add_news.dart';
 import 'package:early_ed/widgets/news_widget.dart';
 import 'package:flutter/material.dart';
-import '../model/user_model.dart';
+import '../../model/user_model.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key, required this.canEdit});
