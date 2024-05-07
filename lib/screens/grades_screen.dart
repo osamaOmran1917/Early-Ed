@@ -261,10 +261,10 @@ class _GradesScreenState extends State<GradesScreen> {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 MyDataBase.updateGrades(
-                                    auth.currentUser!.uid,
+                                    widget.studentId,
                                     'arabicGrades',
                                     [arabicController.text.trim().toString()]);
-                                arabicGrade =
+                                englishGrade =
                                     arabicController.text.trim().toString();
                                 SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
@@ -289,9 +289,9 @@ class _GradesScreenState extends State<GradesScreen> {
             },
             child: Container(
                 margin: const EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                 width: 280.w,
                 height: 80.h,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(100)),
@@ -315,9 +315,9 @@ class _GradesScreenState extends State<GradesScreen> {
                     var data = snapshot.data!;
                     return ListView.builder(
                       itemBuilder: (buildContext, index) {
-                        return Text("Arabic   ${data['arabicGrades'][0]}/50",
+                        return Text("Arabic ${data['arabicGrades'][0]}/50",
                             style:
-                            TextStyle(fontSize: 35.h, color: Colors.black));
+                                TextStyle(fontSize: 35.h, color: Colors.black));
                       },
                       itemCount: data['arabicGrades'].length,
                     );
@@ -373,7 +373,7 @@ class _GradesScreenState extends State<GradesScreen> {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 MyDataBase.updateGrades(
-                                    auth.currentUser!.uid,
+                                    widget.studentId,
                                     'scienceGrades',
                                     [scienceController.text.trim().toString()]);
                                 scienceGrade =
@@ -382,6 +382,7 @@ class _GradesScreenState extends State<GradesScreen> {
                                     await SharedPreferences.getInstance();
                                 prefs.setStringList('scienceGrades',
                                     [scienceController.text.trim().toString()]);
+                                Navigator.pop(context);
                                 setState(() {});
                               }
                             },
@@ -399,8 +400,8 @@ class _GradesScreenState extends State<GradesScreen> {
               }
             },
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
                 margin: const EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                 width: 280.w,
                 height: 80.h,
                 alignment: Alignment.center,
@@ -426,9 +427,9 @@ class _GradesScreenState extends State<GradesScreen> {
                     var data = snapshot.data!;
                     return ListView.builder(
                       itemBuilder: (buildContext, index) {
-                        return Text("Science   ${data['scienceGrades'][0]}/50",
+                        return Text("Science ${data['scienceGrades'][0]}/50",
                             style:
-                            TextStyle(fontSize: 35.h, color: Colors.black));
+                                TextStyle(fontSize: 30.h, color: Colors.black));
                       },
                       itemCount: data['scienceGrades'].length,
                     );
@@ -467,7 +468,7 @@ class _GradesScreenState extends State<GradesScreen> {
                             return null;
                           },
                           decoration:
-                              const InputDecoration(hintText: 'English Grade'),
+                              const InputDecoration(hintText: 'english Grade'),
                         ),
                         actions: [
                           MaterialButton(
@@ -484,7 +485,7 @@ class _GradesScreenState extends State<GradesScreen> {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 MyDataBase.updateGrades(
-                                    auth.currentUser!.uid,
+                                    widget.studentId,
                                     'englishGrades',
                                     [englishController.text.trim().toString()]);
                                 englishGrade =
@@ -511,8 +512,8 @@ class _GradesScreenState extends State<GradesScreen> {
               }
             },
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
                 margin: const EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                 width: 280.w,
                 height: 80.h,
                 alignment: Alignment.center,
@@ -538,9 +539,9 @@ class _GradesScreenState extends State<GradesScreen> {
                     var data = snapshot.data!;
                     return ListView.builder(
                       itemBuilder: (buildContext, index) {
-                        return Text("English   ${data['englishGrades'][0]}/50",
+                        return Text("English ${data['englishGrades'][0]}/50",
                             style:
-                            TextStyle(fontSize: 35.h, color: Colors.black));
+                                TextStyle(fontSize: 32.h, color: Colors.black));
                       },
                       itemCount: data['englishGrades'].length,
                     );
