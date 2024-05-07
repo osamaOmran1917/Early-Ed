@@ -34,7 +34,7 @@ class Student extends StatelessWidget {
                       science: student.scienceGrades
                               ?.map((e) => e.toString())
                               .toList() ??
-                          [], studentId: student.userId!, type: student.type!, subject: student.subject!,): AttendanceScreen(studentId: student.userId, type: student.type!,)));
+                          [], studentId: student.userId!, type: student.type!, subject: student.subject!,): AttendanceScreen(studentId: student.userId, type: 'ad',)));
         },
         leading: ClipRRect(
             borderRadius: BorderRadius.circular(20),

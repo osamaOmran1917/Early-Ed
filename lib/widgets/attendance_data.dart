@@ -1,7 +1,6 @@
 import 'package:early_ed/database/my_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiffy/jiffy.dart';
 
 class AttendanceData extends StatelessWidget {
   const AttendanceData(
