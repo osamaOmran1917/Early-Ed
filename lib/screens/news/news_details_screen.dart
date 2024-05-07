@@ -111,9 +111,10 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         MaterialButton(
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              if (_image != null)
+                              if (_image != null) {
                                 MyDataBase.updateNewsPicture(
                                     File(_image!), widget.news.id!);
+                              }
                               MyDataBase.updateNewsDetails(widget.news.id!,
                                   detailsController.text.trim());
                               Navigator.pop(context);
