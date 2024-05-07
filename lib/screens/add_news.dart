@@ -24,14 +24,6 @@ class _AddNewsState extends State<AddNews> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.home, size: 35,),
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(builder: (context) => const HomeScreen(),));
-        //   },
-        // ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(25),

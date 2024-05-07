@@ -25,8 +25,6 @@ class CircularProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -36,15 +34,15 @@ class CircularProfile extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: showShadow
               ? customShadow ??
-              [
-                BoxShadow(
-                  color: backgroundColor ??
-                      Theme.of(context).primaryColor.withOpacity(0.5),
-                  spreadRadius: radius * 0.1,
-                  blurRadius: radius * 0.3,
-                  offset: const Offset(0, 0),
-                ),
-              ]
+                  [
+                    BoxShadow(
+                      color: backgroundColor ??
+                          Theme.of(context).primaryColor.withOpacity(0.5),
+                      spreadRadius: radius * 0.1,
+                      blurRadius: radius * 0.3,
+                      offset: const Offset(0, 0),
+                    ),
+                  ]
               : null,
           image: DecorationImage(
             image: image,
@@ -53,14 +51,14 @@ class CircularProfile extends StatelessWidget {
         ),
         child: showInnerBorder
             ? Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: innerBorderColor ?? Colors.white.withOpacity(0.5),
-              width: borderThickness ?? radius * 0.1,
-            ),
-          ),
-        )
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: innerBorderColor ?? Colors.white.withOpacity(0.5),
+                    width: borderThickness ?? radius * 0.1,
+                  ),
+                ),
+              )
             : null,
       ),
     );

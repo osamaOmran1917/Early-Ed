@@ -12,6 +12,7 @@ class FriendScreen extends StatelessWidget {
   final String userId;
   final int seen;
   final bool isFromProduct;
+  final bool isGroup;
 
   const FriendScreen({
     required this.userName,
@@ -19,6 +20,7 @@ class FriendScreen extends StatelessWidget {
     required this.userId,
     required this.seen,
     this.isFromProduct = false,
+    this.isGroup = false,
     super.key,
   });
 
@@ -63,6 +65,7 @@ class FriendScreen extends StatelessWidget {
             NewMessages(
               friendId: userId,
               isFromProduct: isFromProduct,
+              isGroup: isGroup,
             ),
           ]),
         ]));

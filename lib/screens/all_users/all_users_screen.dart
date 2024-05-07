@@ -60,6 +60,7 @@ class AllUsersScreen extends StatelessWidget {
                           userId: docs[index]['userId'],
                           seen: 0,
                           isFromProduct: true,
+                          isGroup: docs[index]['isGroup'],
                         ),
                       ),
                     ),

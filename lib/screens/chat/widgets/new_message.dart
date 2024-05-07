@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class NewMessages extends StatefulWidget {
   final String friendId;
   final bool? isFromProduct;
+  final bool isGroup;
 
   const NewMessages({
     super.key,
     required this.friendId,
     this.isFromProduct,
+    this.isGroup = false,
   });
 
   @override
@@ -27,7 +29,9 @@ class NewMessagesState extends State<NewMessages> {
     super.initState();
   }
 
-  Future<void> addContact(String message) async {
+  Future<void> addContact(
+    String message,
+  ) async {
     await FirebaseFirestore.instance
         .collection('userslist')
         .doc(widget.friendId)
@@ -65,6 +69,34 @@ class NewMessagesState extends State<NewMessages> {
           'lastmessagedate': Timestamp.now(),
         },
       );
+    });
+  }
+
+  void fromGroup(String msg) async {
+    await FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc('chatfield')
+        .collection('chats')
+        .doc(widget.friendId)
+        .get()
+        .then((groupData) async {
+      var groupMemebers = groupData.data()!['group_members'] ?? [];
+      for (var member in groupMemebers) {
+        FirebaseFirestore.instance
+            .collection(member)
+            .doc('chatfield')
+            .collection('chats')
+            .doc(widget.friendId)
+            .collection('chat')
+            .add(
+          {
+            'text': msg,
+            'createdAt': Timestamp.now(),
+            'userId': FirebaseAuth.instance.currentUser!.uid,
+            'hide': false,
+          },
+        );
+      }
     });
   }
 
@@ -179,7 +211,12 @@ class NewMessagesState extends State<NewMessages> {
             onPressed: _enteredMessage == ""
                 ? null
                 : () {
-                    _sendMessage(_enteredMessage);
+                    if (widget.isGroup ?? false) {
+                      fromGroup(_enteredMessage);
+                    } else {
+                      _sendMessage(_enteredMessage);
+                    }
+
                     setState(() {
                       _enteredMessage = "";
                       _controller.clear();

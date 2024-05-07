@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:early_ed/model/user_model.dart';
+import 'package:early_ed/screens/group_screen/create_group_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:intl/intl.dart';
@@ -39,11 +40,12 @@ class _MyChatState extends State<MyChat> {
             },
             icon: const Icon(Icons.group_add_outlined),
           ),
-         if (isAdelAdmin) IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              icon: const Icon(Icons.logout_outlined)),
+          if (isAdelAdmin)
+            IconButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                icon: const Icon(Icons.logout_outlined)),
         ],
       ),
       body: StreamBuilder(
@@ -165,6 +167,16 @@ class _MyChatState extends State<MyChat> {
             return const Center(child: CircularProgressIndicator());
           }
         },
+      ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CreateGroupScreen(),
+              ));
+        },
+        child: const Text("Create group"),
       ),
     );
   }

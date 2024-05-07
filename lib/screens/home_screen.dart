@@ -115,8 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 arabic: arabicGrades,
                                 english: englishGrades,
                                 science: scienceGrades,
-                                studentId: auth.currentUser!.uid, type: type, subject: subject
-                              )));
+                                studentId: auth.currentUser!.uid,
+                                type: type,
+                                subject: subject)));
               },
               child: Container(
                 margin:
@@ -143,7 +144,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (type == 'st' || type == 'pa')
-                          ? AttendanceScreen(studentId: auth.currentUser!.uid, type: type,)
+                          ? AttendanceScreen(
+                              studentId: auth.currentUser!.uid,
+                              type: type,
+                            )
                           : const SelectLevelScreen(
                               isGrades: false,
                             ),
@@ -173,8 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          NewsScreen(canEdit: type == 'ad'),
+                      builder: (context) => NewsScreen(canEdit: type == 'ad'),
                     ));
                 log(type);
               },
@@ -205,7 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context) => StudentInfo(
                         userName: userName,
                         age: age,
-                        imageUrl: userImageUrl, level: level,
+                        imageUrl: userImageUrl,
+                        level: level,
                       ),
                     ));
               },
