@@ -100,6 +100,6 @@ class UserDataProvider extends ChangeNotifier {
           break;
         }
     }
-    notifyListeners();
+    //notifyListeners();
   }
 }
