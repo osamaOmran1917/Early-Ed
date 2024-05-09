@@ -18,23 +18,32 @@ class Student extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => isGrades? GradesScreen(
-                      math: student.mathGrades
-                              ?.map((e) => e.toString())
-                              .toList() ??
-                          [],
-                      arabic: student.arabicGrades
-                              ?.map((e) => e.toString())
-                              .toList() ??
-                          [],
-                      english: student.englishGrades
-                              ?.map((e) => e.toString())
-                              .toList() ??
-                          [],
-                      science: student.scienceGrades
-                              ?.map((e) => e.toString())
-                              .toList() ??
-                          [], studentId: student.userId!, type: student.type!, subject: student.subject!,): AttendanceScreen(studentId: student.userId, type: 'ad',)));
+                  builder: (_) => isGrades
+                      ? GradesScreen(
+                          math: student.mathGrades
+                                  ?.map((e) => e.toString())
+                                  .toList() ??
+                              [],
+                          arabic: student.arabicGrades
+                                  ?.map((e) => e.toString())
+                                  .toList() ??
+                              [],
+                          english: student.englishGrades
+                                  ?.map((e) => e.toString())
+                                  .toList() ??
+                              [],
+                          science: student.scienceGrades
+                                  ?.map((e) => e.toString())
+                                  .toList() ??
+                              [],
+                          studentId: student.userId!,
+                          type: student.type!,
+                          subject: student.subject!,
+                          childId: student.childId ?? '')
+                      : AttendanceScreen(
+                          studentId: student.userId,
+                          type: 'ad',
+                          childId: student.childId ?? '')));
         },
         leading: ClipRRect(
             borderRadius: BorderRadius.circular(20),

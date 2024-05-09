@@ -18,13 +18,10 @@ Person convertStringToEnum(String value) {
     return Person.parent;
   } else if (value == 'te') {
     return Person.teacher;
-  }
-  else if (value == 'ad') {
+  } else if (value == 'ad') {
     return Person.admin;
-  }
-  else {
+  } else {
     return Person.unknown;
-
   }
 }
 
@@ -52,7 +49,8 @@ class UserModel {
       parentOrChildName,
       password,
       userImageUrl,
-      subject;
+      subject,
+      childId; // If type is 'pa'.
   Person? type1;
   int? level, age;
   List? mathGrades, scienceGrades, englishGrades, arabicGrades, weekAtt;
@@ -72,7 +70,8 @@ class UserModel {
       this.subject,
       this.level,
       this.age,
-      this.type1, this.weekAtt});
+      this.type1,
+      this.weekAtt, this.childId});
 
   UserModel.fromFireStore(Map<String, dynamic> data)
       : this(
@@ -89,7 +88,8 @@ class UserModel {
             userImageUrl: data['userImageUrl'],
             subject: data['subject'],
             level: data['level'],
-            age: data['age'], weekAtt: data['weekAtt']);
+            age: data['age'],
+            weekAtt: data['weekAtt'], childId: data['childId']);
 
   Map<String, dynamic> toFireStore() {
     return {
@@ -107,7 +107,8 @@ class UserModel {
       'subject': subject,
       'level': level,
       'age': age,
-      'weekAtt': weekAtt
+      'weekAtt': weekAtt,
+      'childId': childId
     };
   }
 }

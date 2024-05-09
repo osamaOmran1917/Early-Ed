@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  String userName = '', userEmail = '', userId = '', parentOrChildName = '', password = '', type = '', userImageUrl = '', subject = '';
+  String userName = '', userEmail = '', userId = '', parentOrChildName = '', password = '', type = '', userImageUrl = '', subject = '', childId = '';
   int level = 0, age = 0;
   List<String> arabicGrades = [], englishGrades = [], mathGrades = [], scienceGrades = [], weekAtt = [];
 
@@ -13,6 +13,12 @@ class UserDataProvider extends ChangeNotifier {
         {
           userName = value;
           prefs.setString(key, userName);
+          break;
+        }
+      case 'childId':
+        {
+          childId = value;
+          prefs.setString(key, childId);
           break;
         }
       case 'type':

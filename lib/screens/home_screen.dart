@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       password = '',
       subject = '',
       type = '',
-      userImageUrl = '';
+      userImageUrl = '', childId = '';
   int age = 0, level = 0;
   List<String> mathGrades = [],
       englishGrades = [],
@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       subject = prefs.getString('subject') ?? '';
       type = prefs.getString('type') ?? '';
       userImageUrl = prefs.getString('userImageUrl') ?? '';
+      childId = prefs.getString('childId') ?? '';
       age = prefs.getInt('age') ?? 0;
       level = prefs.getInt('level') ?? 0;
       mathGrades = prefs.getStringList('mathGrades') ?? [];
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 science: scienceGrades,
                                 studentId: auth.currentUser!.uid,
                                 type: type,
-                                subject: subject)));
+                                subject: subject, childId: childId)));
               },
               child: Container(
                 margin:
@@ -147,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? AttendanceScreen(
                               studentId: auth.currentUser!.uid,
                               type: type,
+                          childId: childId
                             )
                           : const SelectLevelScreen(
                               isGrades: false,

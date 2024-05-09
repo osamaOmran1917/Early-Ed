@@ -6,9 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key, this.studentId, required this.type});
+  const AttendanceScreen({super.key, this.studentId, required this.type, required this.childId});
   final studentId;
-  final String type;
+  final String type, childId;
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -59,7 +59,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       child: StreamBuilder<DocumentSnapshot>(
                         stream: firestore
                             .collection('userslist')
-                            .doc(widget.studentId ?? auth.currentUser!.uid)
+                            .doc(widget.childId.trim() == null? widget.studentId ?? auth.currentUser!.uid: widget.childId)
                             .snapshots(),
                         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                           /*if (snapshot.connectionState == ConnectionState.waiting) {

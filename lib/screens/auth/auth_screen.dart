@@ -84,6 +84,7 @@ class AuthScreenState extends State<AuthScreen> {
       userDataProvider.setData('scienceGrades', (retrievedUser?.scienceGrades ??[]).map((item) => item.toString()).toList());
       userDataProvider.setData('weekAtt', (retrievedUser?.weekAtt ??[]).map((item) => item.toString()).toList());
       userDataProvider.setData('type', retrievedUser?.type ?? '');
+      userDataProvider.setData('childId', retrievedUser?.childId ?? '');
       if (retrievedUser != null) {
         SharedData.user = retrievedUser;
         Navigator.pushNamedAndRemoveUntil(
