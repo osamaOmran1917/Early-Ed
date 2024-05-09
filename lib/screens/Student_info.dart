@@ -10,6 +10,7 @@ class StudentInfo extends StatelessWidget {
       required this.age,
       required this.imageUrl,
       required this.level});
+
   final String userName, imageUrl;
   final int age, level;
 

@@ -227,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   border: Border.all(color: Colors.blueAccent),
                 ),
                 child: const Text(
-                  "STUDENT INFO",
+                  "USER INFO",
                   style: TextStyle(fontSize: 23),
                 ),
               ),

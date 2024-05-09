@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
         designSize: const Size(430, 932),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
             home: /*StreamBuilder<User?>(
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (ctx, snapShot) {

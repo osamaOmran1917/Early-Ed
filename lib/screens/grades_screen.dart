@@ -15,6 +15,7 @@ class GradesScreen extends StatefulWidget {
       required this.studentId,
       required this.type,
       required this.subject});
+
   final List<String> math, arabic, english, science;
   final String studentId, type, subject;
 

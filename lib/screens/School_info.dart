@@ -4,6 +4,8 @@ import 'package:early_ed/widgets/circular_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../helpers/common_methods.dart';
+
 class SchoolInfo extends StatelessWidget {
   const SchoolInfo({super.key});
 
@@ -98,7 +100,7 @@ class SchoolInfo extends StatelessWidget {
                     Text(
                         "Al-Zaytoun Al-Qibliya, "
                         "Cairo Governorate",
-                        style: TextStyle()),
+                        style: TextStyle(fontSize: 19)),
                   ],
                 )
                 //Text(
@@ -116,12 +118,13 @@ class SchoolInfo extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 ),
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AuthScreen(),
-                      ));
+                  logOut(context);
+                  // FirebaseAuth.instance.signOut();
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => AuthScreen(),
+                  //     ));
                 },
               ),
             )
