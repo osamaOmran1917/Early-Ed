@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiffy/jiffy.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key, this.studentId, required this.type, required this.childId});
+  const AttendanceScreen(
+      {super.key, this.studentId, required this.type, required this.childId});
+
   final studentId;
   final String type, childId;
 
@@ -57,37 +59,49 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   SizedBox(height: 20.h),
                   Expanded(
                       child: StreamBuilder<DocumentSnapshot>(
-                        stream: firestore
-                            .collection('userslist')
-                            .doc(widget.childId.trim() == null? widget.studentId ?? auth.currentUser!.uid: widget.childId)
-                            .snapshots(),
-                        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          /*if (snapshot.connectionState == ConnectionState.waiting) {
+                    stream: firestore
+                        .collection('userslist')
+                        .doc(widget.childId.trim() != null
+                            ? widget.studentId ?? auth.currentUser!.uid
+                            : widget.childId)
+                        .snapshots(),
+                    builder:
+                        (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      /*if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: CircularProgressIndicator());
                           }*/
-                          if (snapshot.hasError) {
-                            return Center(child: Text('Error: ${snapshot.error}'));
-                          }
-                          if (!snapshot.hasData || !snapshot.data!.exists) {
-                            return const Center(child: Text('No data found'));
-                          }
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return const Center(child: Text('No data found'));
+                      }
 
-                          var data = snapshot.data!;
-                          return ListView.builder(
-                            itemBuilder: (buildContext, index) {
-                              return AttendanceData(
-                                day: Jiffy.now().subtract(days: data['weekAtt'].length - 1 - index).E,
-                                date: Jiffy.now().subtract(days: data['weekAtt'].length - 1 - index).MMMd,
-                                present: data['weekAtt'][index] == '1',
-                                attendance: data['weekAtt'].map((item) => item.toString()).toList(),
-                                index: index, studentId: widget.studentId,
-                                type: widget.type,
-                              );
-                            },
-                            itemCount: data['weekAtt'].length,
+                      var data = snapshot.data!;
+                      return ListView.builder(
+                        itemBuilder: (buildContext, index) {
+                          return AttendanceData(
+                            day: Jiffy.now()
+                                .subtract(
+                                    days: data['weekAtt'].length - 1 - index)
+                                .E,
+                            date: Jiffy.now()
+                                .subtract(
+                                    days: data['weekAtt'].length - 1 - index)
+                                .MMMd,
+                            present: data['weekAtt'][index] == '1',
+                            attendance: data['weekAtt']
+                                .map((item) => item.toString())
+                                .toList(),
+                            index: index,
+                            studentId: widget.studentId,
+                            type: widget.type,
                           );
                         },
-                      )
-                  )])));
+                        itemCount: data['weekAtt'].length,
+                      );
+                    },
+                  ))
+                ])));
   }
 }

@@ -550,30 +550,30 @@ class _GradesScreenState extends State<GradesScreen> {
                 )),
           ),
           const Spacer(),
-          Row(
-            children: [
-              IconButton(
-                style: ButtonStyle(iconSize: MaterialStateProperty.all(60)),
-                onPressed: () {},
-                icon: const Icon(Icons.message_sharp),
-                alignment: Alignment.bottomLeft,
-              ),
-              const Spacer(),
-              IconButton(
-                style: ButtonStyle(iconSize: MaterialStateProperty.all(60)),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ));
-                },
-                icon: const Icon(Icons.arrow_circle_right_sharp),
-                alignment: Alignment.bottomRight,
-                iconSize: 60,
-              ),
-            ],
-          )
+          // Row(
+          //   children: [
+          //     IconButton(
+          //       style: ButtonStyle(iconSize: MaterialStateProperty.all(60)),
+          //       onPressed: () {},
+          //       icon: const Icon(Icons.message_sharp),
+          //       alignment: Alignment.bottomLeft,
+          //     ),
+          //     const Spacer(),
+          //     IconButton(
+          //       style: ButtonStyle(iconSize: MaterialStateProperty.all(60)),
+          //       onPressed: () {
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => const HomeScreen(),
+          //             ));
+          //       },
+          //       icon: const Icon(Icons.arrow_circle_right_sharp),
+          //       alignment: Alignment.bottomRight,
+          //       iconSize: 60,
+          //     ),
+          //   ],
+          // )
         ]));
   }
 }
