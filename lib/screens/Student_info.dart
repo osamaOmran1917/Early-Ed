@@ -19,19 +19,6 @@ class StudentInfo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100.h,
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     Icons.home,
-        //     size: 35,
-        //   ),
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => const HomeScreen(),
-        //         ));
-        //   },
-        // ),
         title: Column(
           children: [
             Image.asset(
@@ -44,9 +31,6 @@ class StudentInfo extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
-        actions: const [
-          Icon(Icons.more_vert_rounded, size: 33, color: Colors.black)
-        ],
       ),
       body: Container(
         color: Colors.lightBlue,

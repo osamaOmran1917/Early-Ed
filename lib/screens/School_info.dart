@@ -39,9 +39,6 @@ class SchoolInfo extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
-        actions: const [
-          Icon(Icons.more_vert_rounded, size: 33, color: Colors.black)
-        ],
       ),
       body: Container(
         color: Colors.lightBlue,

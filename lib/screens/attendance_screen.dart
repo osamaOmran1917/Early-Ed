@@ -39,9 +39,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ),
           centerTitle: true,
           backgroundColor: Colors.lightBlue,
-          actions: const [
-            Icon(Icons.more_vert_rounded, size: 33, color: Colors.black)
-          ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(17),

@@ -60,14 +60,6 @@ class _GradesScreenState extends State<GradesScreen> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 100.h,
-
-          // leading: IconButton(
-          //   icon: const Icon(Icons.home,size: 35,),
-          //   onPressed: () {
-          //     Navigator.push(
-          //         context, MaterialPageRoute(builder: (context) => HomeScreen(),));
-          //   },
-          // ),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(25),
@@ -85,9 +77,6 @@ class _GradesScreenState extends State<GradesScreen> {
           ),
           centerTitle: true,
           backgroundColor: Colors.lightBlue,
-          actions: const [
-            Icon(Icons.more_vert_rounded, size: 33, color: Colors.black)
-          ],
         ),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
