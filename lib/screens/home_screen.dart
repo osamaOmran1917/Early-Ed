@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:early_ed/database/my_database.dart';
 import 'package:early_ed/database/user_data_provider.dart';
 import 'package:early_ed/screens/School_info.dart';
-import 'package:early_ed/screens/Student_info.dart';
+import 'package:early_ed/screens/user_info.dart';
 import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
 import 'package:early_ed/screens/news/news_screen.dart';
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => StudentInfo(
+                      builder: (context) => UserInfo(
                         userName: userName,
                         age: age,
                         imageUrl: userImageUrl,

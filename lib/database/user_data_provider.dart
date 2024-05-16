@@ -2,9 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  String userName = '', userEmail = '', userId = '', parentOrChildName = '', password = '', type = '', userImageUrl = '', subject = '', childId = '';
+  String userName = '',
+      userEmail = '',
+      userId = '',
+      parentOrChildName = '',
+      password = '',
+      type = '',
+      userImageUrl = '',
+      subject = '',
+      childId = '';
   int level = 0, age = 0;
-  List<String> arabicGrades = [], englishGrades = [], mathGrades = [], scienceGrades = [], weekAtt = [];
+  List<String> arabicGrades = [],
+      englishGrades = [],
+      mathGrades = [],
+      scienceGrades = [],
+      weekAtt = [];
 
   void setData(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();

@@ -3,8 +3,8 @@ import 'package:early_ed/helpers/common_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class StudentInfo extends StatelessWidget {
-  const StudentInfo(
+class UserInfo extends StatelessWidget {
+  const UserInfo(
       {super.key,
       required this.userName,
       required this.age,

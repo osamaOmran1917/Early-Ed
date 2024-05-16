@@ -45,7 +45,7 @@ class UserModel {
   String? userId,
       userName,
       userEmail,
-      type, // Type has to be one of these four strings ("st", "pa", "te", "ad") which refers to either student, parent or teacher. --- .يجب أن يكون النوع نص من هذه الأربعة نصوص بين الأقواس.
+      type, // Type has to be one of these four strings ("st", "pa", "te", "ad")
       parentOrChildName,
       password,
       userImageUrl,

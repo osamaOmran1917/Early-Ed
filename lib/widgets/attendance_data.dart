@@ -8,12 +8,16 @@ class AttendanceData extends StatelessWidget {
       required this.day,
       required this.date,
       required this.present,
-      required this.attendance, required this.index, required this.studentId, required this.type});
+      required this.attendance,
+      required this.index,
+      required this.studentId,
+      required this.type});
+
   final String day, date, studentId, type;
   final bool present;
   final List attendance;
   final int index;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +36,7 @@ class AttendanceData extends StatelessWidget {
                   backgroundColor:
                       present ? Colors.greenAccent : Colors.redAccent),
               onPressed: () {
-                if(type == 'ad' || type == 'te') {
+                if (type == 'ad' || type == 'te') {
                   attendance[index] = present ? '0' : '1';
                   MyDataBase.updateAttendance(studentId, 'weekAtt', attendance);
                 }
