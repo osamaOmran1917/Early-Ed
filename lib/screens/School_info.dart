@@ -1,8 +1,6 @@
-import 'package:early_ed/screens/auth/auth_screen.dart';
-import 'package:early_ed/screens/home_screen.dart';
 import 'package:early_ed/widgets/circular_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../helpers/common_methods.dart';
 
@@ -81,10 +79,12 @@ class SchoolInfo extends StatelessWidget {
                       size: 50,
                       color: Colors.deepOrange,
                     ),
-                    Text(
-                        "Al-Zaytoun Al-Qibliya, "
-                        "Cairo Governorate",
-                        style: TextStyle(fontSize: 19)),
+                    Expanded(
+                      child: Text(
+                          "Al-Zaytoun Al-Qibliya, "
+                          "Cairo Governorate",
+                          style: TextStyle(fontSize: 16)),
+                    ),
                   ],
                 )
                 //Text(

@@ -3,7 +3,6 @@ import 'package:early_ed/model/news_model.dart';
 import 'package:early_ed/screens/add_news.dart';
 import 'package:early_ed/widgets/news_widget.dart';
 import 'package:flutter/material.dart';
-import '../../model/user_model.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key, required this.canEdit});
@@ -14,19 +13,19 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: 100,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(25),
-                  bottomLeft: Radius.circular(25)),
-            ),
-            title: Column(children: [
-              Image.asset("assets/images/EARLYED.png",
-                  width: 150, height: 100, fit: BoxFit.fill)
-            ]),
-            centerTitle: true,
-            backgroundColor: Colors.lightBlue,
-            ),
+          toolbarHeight: 100,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(25),
+                bottomLeft: Radius.circular(25)),
+          ),
+          title: Column(children: [
+            Image.asset("assets/images/EARLYED.png",
+                width: 150, height: 100, fit: BoxFit.fill)
+          ]),
+          centerTitle: true,
+          backgroundColor: Colors.lightBlue,
+        ),
         body: Container(
             decoration: const BoxDecoration(color: Colors.white10),
             child: Column(children: [
@@ -57,7 +56,8 @@ class NewsScreen extends StatelessWidget {
                           news: NewsModel(
                               imageUrl: document['imageUrl'],
                               id: document['id'],
-                              details: document['details']), canEdit: canEdit);
+                              details: document['details']),
+                          canEdit: canEdit);
                     }).toList(),
                   );
                 },
@@ -67,8 +67,12 @@ class NewsScreen extends StatelessWidget {
             ? IconButton(
                 //only if Admin
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddNews(canEdit: canEdit,)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddNews(
+                                canEdit: canEdit,
+                              )));
                 },
                 icon: const Icon(Icons.add_circle),
                 iconSize: 40)

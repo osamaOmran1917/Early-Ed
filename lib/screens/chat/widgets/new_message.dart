@@ -51,28 +51,69 @@ class NewMessagesState extends State<NewMessages> {
           'seen': "1",
           'lastmessage': message,
           'lastmessagedate': Timestamp.now(),
+          'isGroup': false,
         },
       );
       FirebaseFirestore.instance
-          .collection(widget.friendId)
-          .doc('chatfield')
-          .collection('chats')
+          .collection('userslist')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set(
-        {
-          'userid': FirebaseAuth.instance.currentUser!.uid,
-          'username': FirebaseAuth.instance.currentUser!.displayName,
-          'image_url': FirebaseAuth.instance.currentUser!.photoURL,
-          'messagelength': "1",
-          'seen': "0",
-          'lastmessage': message,
-          'lastmessagedate': Timestamp.now(),
-        },
-      );
+          .get()
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection(widget.friendId)
+            .doc('chatfield')
+            .collection('chats')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set(
+          {
+            'userid': value.data()!['userId'],
+            'username': value.data()!['userName'],
+            'image_url': value.data()!['userImageUrl'],
+            'messagelength': "1",
+            'seen': "0",
+            'lastmessage': message,
+            'lastmessagedate': Timestamp.now(),
+            'isGroup': false,
+          },
+        );
+      });
     });
   }
 
-  void fromGroup(String msg) async {
+  // void fromGroup(String msg) async {
+  //   await FirebaseFirestore.instance
+  //       .collection(FirebaseAuth.instance.currentUser!.uid)
+  //       .doc('chatfield')
+  //       .collection('chats')
+  //       .doc(widget.friendId)
+  //       .get()
+  //       .then((groupData) async {
+  //     var groupMemebers = groupData.data()!['group_members'] ?? [];
+  //     for (var member in groupMemebers) {
+  //       FirebaseFirestore.instance
+  //           .collection(member)
+  //           .doc('chatfield')
+  //           .collection('chats')
+  //           .doc(widget.friendId)
+  //           .collection('chat')
+  //           .add(
+  //         {
+  //           'text': msg,
+  //           'createdAt': Timestamp.now(),
+  //           'userId': FirebaseAuth.instance.currentUser!.uid,
+  //           'hide': false,
+  //         },
+  //       );
+  //     }
+  //   });
+  // }
+  _sendGroupMessage(String msg) async {
+    DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
+        .instance
+        .collection('userslist')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    String userName = data.data()?['userName'] ?? 'unKnown';
     await FirebaseFirestore.instance
         .collection(FirebaseAuth.instance.currentUser!.uid)
         .doc('chatfield')
@@ -80,23 +121,69 @@ class NewMessagesState extends State<NewMessages> {
         .doc(widget.friendId)
         .get()
         .then((groupData) async {
-      var groupMemebers = groupData.data()!['group_members'] ?? [];
-      for (var member in groupMemebers) {
-        FirebaseFirestore.instance
-            .collection(member)
-            .doc('chatfield')
-            .collection('chats')
-            .doc(widget.friendId)
-            .collection('chat')
-            .add(
-          {
-            'text': msg,
-            'createdAt': Timestamp.now(),
-            'userId': FirebaseAuth.instance.currentUser!.uid,
-            'hide': false,
-          },
-        );
-      }
+      var groupMembers = List.from(groupData.data()!['group_members'] ?? []);
+      FirebaseFirestore.instance
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc('chatfield')
+          .collection('chats')
+          .doc(widget.friendId)
+          .update(
+        {
+          'senderName': userName,
+          'lastmessage': msg,
+          'lastmessagedate': Timestamp.now(),
+        },
+      );
+      FirebaseFirestore.instance
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc('chatfield')
+          .collection('chats')
+          .doc(widget.friendId)
+          .collection('chat')
+          .add(
+        {
+          'text': msg,
+          'createdAt': Timestamp.now(),
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+          'hide': false,
+          'senderName': userName,
+        },
+      ).then((refrence) {
+        for (var element in groupMembers) {
+          if (element != FirebaseAuth.instance.currentUser!.uid) {
+            FirebaseFirestore.instance
+                .collection(element)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.friendId)
+                .collection('chat')
+                .doc(refrence.id)
+                .set(
+              {
+                'text': msg,
+                'createdAt': Timestamp.now(),
+                'userId': FirebaseAuth.instance.currentUser!.uid,
+                'hide': false,
+                'senderName': userName,
+              },
+            );
+            FirebaseFirestore.instance
+                .collection(element)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.friendId)
+                .update(
+              {
+                // 'messagelength': "0",
+                // 'seen': "0",
+                'senderName': userName,
+                'lastmessage': msg,
+                'lastmessagedate': Timestamp.now(),
+              },
+            );
+          }
+        }
+      });
     });
   }
 
@@ -211,8 +298,9 @@ class NewMessagesState extends State<NewMessages> {
             onPressed: _enteredMessage == ""
                 ? null
                 : () {
-                    if (widget.isGroup ?? false) {
-                      fromGroup(_enteredMessage);
+                    if (widget.isGroup) {
+                      // fromGroup(_enteredMessage);
+                      _sendGroupMessage(_enteredMessage);
                     } else {
                       _sendMessage(_enteredMessage);
                     }

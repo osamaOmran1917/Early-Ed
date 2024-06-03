@@ -9,9 +9,10 @@ class UserInfo extends StatelessWidget {
       required this.userName,
       required this.age,
       required this.imageUrl,
+        required this.type,
       required this.level});
 
-  final String userName, imageUrl;
+  final String userName, imageUrl,type;
   final int age, level;
 
   @override
@@ -41,7 +42,7 @@ class UserInfo extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               alignment: Alignment.center,
               child: const Text(
-                "STUDENT INFO",
+                "USER INFO",
                 style: TextStyle(color: Colors.white, fontSize: 36),
               ),
             ),
@@ -78,17 +79,21 @@ class UserInfo extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               alignment: Alignment.center,
               child: Text(
-                level == 1
+                type == 'ad'
+                    ? "Admin"
+                    : type == 'te'
+                    ? 'Teacher'
+                    : level == 1
                     ? 'First Grade'
                     : level == 2
-                        ? 'Second Grade'
-                        : level == 3
-                            ? 'Third Grade'
-                            : level == 4
-                                ? 'Fourth Grade'
-                                : level == 5
-                                    ? 'Fifth Grade'
-                                    : 'Sixth Grade',
+                    ? 'Second Grade'
+                    : level == 3
+                    ? 'Third Grade'
+                    : level == 4
+                    ? 'Fourth Grade'
+                    : level == 5
+                    ? 'Fifth Grade'
+                    : 'Sixth Grade',
                 style: const TextStyle(color: Colors.white, fontSize: 30),
               ),
             ),

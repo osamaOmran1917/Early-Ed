@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CircularProfile extends StatelessWidget {
   const CircularProfile({
-    Key? key,
+    super.key,
     required this.image,
     this.backgroundColor,
     this.innerBorderColor,
@@ -12,7 +12,7 @@ class CircularProfile extends StatelessWidget {
     this.showShadow = true,
     this.showInnerBorder = true,
     this.customShadow,
-  }) : super(key: key);
+  });
   final ImageProvider<Object> image;
   final Color? backgroundColor;
   final Color? innerBorderColor;

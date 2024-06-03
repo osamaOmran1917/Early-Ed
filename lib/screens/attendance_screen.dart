@@ -76,15 +76,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
                       var data = snapshot.data!;
                       return ListView.builder(
+                        reverse: false,
                         itemBuilder: (buildContext, index) {
                           return AttendanceData(
                             day: Jiffy.now()
                                 .subtract(
-                                    days: data['weekAtt'].length - 1 - index)
+                                    days: data['weekAtt'].length -
+                                        data['weekAtt'].length +
+                                        index)
                                 .E,
                             date: Jiffy.now()
                                 .subtract(
-                                    days: data['weekAtt'].length - 1 - index)
+                                    days: data['weekAtt'].length -
+                                        data['weekAtt'].length +
+                                        index)
                                 .MMMd,
                             present: data['weekAtt'][index] == '1',
                             attendance: data['weekAtt']

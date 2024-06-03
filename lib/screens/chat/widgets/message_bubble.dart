@@ -11,73 +11,87 @@ class MessageBubble extends StatelessWidget {
   final String docId;
   final String myId;
   final String friendId;
+  final String senderName;
   final bool isLastMsg;
 
   const MessageBubble(this.message, this.isMe, this.mTime, this.docId,
       this.myId, this.friendId, this.isLastMsg,
-      {super.key});
+      {super.key, required this.senderName});
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
-      child: TextButton(
-        style: ButtonStyle(
-            padding: MaterialStateProperty.all(
-                const EdgeInsets.only(left: 10, right: 10, top: 0))),
-        onPressed: () {
-          showToast(context);
-        },
-        onLongPress:
-            message == "message deleted" || message == "message deleted"
-                ? null
-                : () {
-                    modalButtonSh(context);
-                  },
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 300, minWidth: 30),
-          padding: const EdgeInsets.only(left: 7, right: 3, top: 8, bottom: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft:
-                  isMe ? const Radius.circular(6) : const Radius.circular(7),
-              topRight:
-                  !isMe ? const Radius.circular(6) : const Radius.circular(7),
-              bottomRight: const Radius.circular(7),
-              bottomLeft: const Radius.circular(7),
+    return Container(
+      margin: const EdgeInsets.all(2),
+      child: Align(
+        alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
+        child: TextButton(
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                  const EdgeInsets.only(left: 10, right: 10, top: 0))),
+          onPressed: () {
+            showToast(context);
+          },
+          onLongPress:
+              message == "message deleted" || message == "message deleted"
+                  ? null
+                  : () {
+                      modalButtonSh(context);
+                    },
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 300, minWidth: 30),
+            padding:
+                const EdgeInsets.only(left: 7, right: 3, top: 8, bottom: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft:
+                    isMe ? const Radius.circular(6) : const Radius.circular(7),
+                topRight:
+                    !isMe ? const Radius.circular(6) : const Radius.circular(7),
+                bottomRight: const Radius.circular(7),
+                bottomLeft: const Radius.circular(7),
+              ),
+              color: isMe ? const Color(0xFFE2F7CB) : Colors.grey[200],
             ),
-            color: isMe ? const Color(0xFFE2F7CB) : Colors.grey[200],
-          ),
-          child: Wrap(
-            alignment: WrapAlignment.end,
-            crossAxisAlignment: WrapCrossAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 3, bottom: 2),
-                child: Text(message,
-                    style: TextStyle(
-                        color: message == "message deleted" ||
-                                message == "message deleted"
-                            ? Colors.red
-                            : Colors.black)),
-              ),
-              const SizedBox(width: 4),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Opacity(
-                    opacity: 0.8,
-                    child: Text(
-                      DateFormat('hh:mm a').format(mTime.toDate()),
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.black45),
-                      textAlign: TextAlign.end,
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    senderName != '' && !isMe
+                        ? Text('<$senderName>')
+                        : const SizedBox(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 3, bottom: 2),
+                      child: Text(message,
+                          style: TextStyle(
+                              color: message == "message deleted" ||
+                                      message == "message deleted"
+                                  ? Colors.red
+                                  : Colors.black)),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                const SizedBox(width: 4),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Opacity(
+                      opacity: 0.8,
+                      child: Text(
+                        DateFormat('hh:mm a').format(mTime.toDate()),
+                        style: const TextStyle(
+                            fontSize: 12, color: Colors.black45),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

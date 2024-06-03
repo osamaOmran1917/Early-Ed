@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:early_ed/database/my_database.dart';
-import 'package:early_ed/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +13,8 @@ class GradesScreen extends StatefulWidget {
       required this.science,
       required this.studentId,
       required this.type,
-      required this.subject, required this.childId});
+      required this.subject,
+      required this.childId});
 
   final List<String> math, arabic, english, science;
   final String studentId, type, subject, childId;
@@ -177,7 +177,9 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: StreamBuilder<DocumentSnapshot>(
                   stream: firestore
                       .collection('userslist')
-                      .doc(widget.type == 'st'? widget.studentId: widget.childId)
+                      .doc(widget.type == 'st'
+                          ? widget.studentId
+                          : widget.childId)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     /*if (snapshot.connectionState == ConnectionState.waiting) {
@@ -289,7 +291,9 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: StreamBuilder<DocumentSnapshot>(
                   stream: firestore
                       .collection('userslist')
-                      .doc(widget.type == 'st'? widget.studentId: widget.childId)
+                      .doc(widget.type == 'st'
+                          ? widget.studentId
+                          : widget.childId)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     /*if (snapshot.connectionState == ConnectionState.waiting) {
@@ -401,7 +405,9 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: StreamBuilder<DocumentSnapshot>(
                   stream: firestore
                       .collection('userslist')
-                      .doc(widget.type == 'st'? widget.studentId: widget.childId)
+                      .doc(widget.type == 'st'
+                          ? widget.studentId
+                          : widget.childId)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     /*if (snapshot.connectionState == ConnectionState.waiting) {
@@ -513,7 +519,9 @@ class _GradesScreenState extends State<GradesScreen> {
                 child: StreamBuilder<DocumentSnapshot>(
                   stream: firestore
                       .collection('userslist')
-                      .doc(widget.type == 'st'? widget.studentId: widget.childId)
+                      .doc(widget.type == 'st'
+                          ? widget.studentId
+                          : widget.childId)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     /*if (snapshot.connectionState == ConnectionState.waiting) {

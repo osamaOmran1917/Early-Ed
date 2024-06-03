@@ -126,6 +126,7 @@ class _MyChatState extends State<MyChat> {
                                 userId: docs[index]['userid'],
                                 seen: int.parse(docs[index]['seen']),
                                 isFromProduct: false,
+                                isGroup: docs[index]['isGroup'],
                               ),
                             ),
                           ),
@@ -168,7 +169,9 @@ class _MyChatState extends State<MyChat> {
           }
         },
       ),
-      floatingActionButton: ElevatedButton(
+      floatingActionButton: FirebaseAuth.instance.currentUser!.uid ==
+          "bQFcj7UM1CaaJtlEN3Zz41lZe6T2"
+          ? ElevatedButton(
         onPressed: () {
           Navigator.push(
               context,
@@ -177,7 +180,8 @@ class _MyChatState extends State<MyChat> {
               ));
         },
         child: const Text("Create group"),
-      ),
+      )
+          : null,
     );
   }
 }

@@ -1,5 +1,7 @@
 // import 'package:shopping/other/constants.dart';
 
+import 'package:early_ed/screens/group_info_screen/group_info_screen.dart';
+
 import 'widgets/new_message.dart';
 import 'widgets/message.dart';
 
@@ -39,6 +41,20 @@ class FriendScreen extends StatelessWidget {
               backgroundImage: NetworkImage(imageUrl),
             ),
           ),
+          actions: [
+            isGroup &&
+                    FirebaseAuth.instance.currentUser!.uid ==
+                        "bQFcj7UM1CaaJtlEN3Zz41lZe6T2"
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => GroupInfoScreen(
+                            groupId: userId, groupName: userName),
+                      ));
+                    },
+                    icon: const Icon(Icons.settings))
+                : const SizedBox()
+          ],
         ),
         body: Stack(children: [
           Container(
@@ -61,6 +77,7 @@ class FriendScreen extends StatelessWidget {
               myId: myid,
               friendId: userId,
               seen: seen,
+              isGroup: isGroup,
             )),
             NewMessages(
               friendId: userId,

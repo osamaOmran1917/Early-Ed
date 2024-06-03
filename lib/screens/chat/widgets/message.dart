@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../chat/widgets/message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,11 +10,13 @@ class Messages extends StatefulWidget {
   final String friendId;
   final String myId;
   final int seen;
+  final bool isGroup;
 
   const Messages({
     required this.friendId,
     required this.myId,
     required this.seen,
+    required this.isGroup,
     super.key,
   });
 
@@ -59,27 +63,68 @@ class MessagesState extends State<Messages> {
           //     .then((data) {
 
           // });
-          FirebaseFirestore.instance
-              .collection(widget.friendId)
-              .doc('chatfield')
-              .collection('chats')
-              .doc(widget.myId)
-              .update(
-            {
-              'messagelength': "${docs.length}",
-            },
-          );
-          FirebaseFirestore.instance
-              .collection(widget.myId)
-              .doc('chatfield')
-              .collection('chats')
-              .doc(widget.friendId)
-              .update(
-            {
-              'messagelength': "${docs.length}",
-              'seen': "${docs.length}",
-            },
-          );
+          void updateGroupMessageLength() async {
+            FirebaseFirestore.instance
+                .collection(widget.myId)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.friendId)
+                .update(
+              {
+                'messagelength': "${docs.length}",
+                'seen': "${docs.length}",
+              },
+            );
+
+            await FirebaseFirestore.instance
+                .collection(FirebaseAuth.instance.currentUser!.uid)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.friendId)
+                .get()
+                .then((groupData) async {
+              var groupMembers =
+                  List.from(groupData.data()!['group_members'] ?? []);
+              for (var element in groupMembers) {
+                FirebaseFirestore.instance
+                    .collection(element)
+                    .doc('chatfield')
+                    .collection('chats')
+                    .doc(widget.friendId)
+                    .update(
+                  {
+                    'messagelength': "${docs.length}",
+                  },
+                );
+              }
+            });
+          }
+
+          if (widget.isGroup) {
+            updateGroupMessageLength();
+          } else {
+            FirebaseFirestore.instance
+                .collection(widget.friendId)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.myId)
+                .update(
+              {
+                'messagelength': "${docs.length}",
+              },
+            );
+            FirebaseFirestore.instance
+                .collection(widget.myId)
+                .doc('chatfield')
+                .collection('chats')
+                .doc(widget.friendId)
+                .update(
+              {
+                'messagelength': "${docs.length}",
+                'seen': "${docs.length}",
+              },
+            );
+          }
         }
 
         return Scrollbar(
@@ -134,6 +179,8 @@ class MessagesState extends State<Messages> {
                           }).id ==
                           docs[index].id,
                       key: ValueKey(docs[index].id),
+                      senderName:
+                          widget.isGroup ? docs[index]['senderName'] : '',
                     ),
                   ],
                 );
@@ -167,6 +214,8 @@ class MessagesState extends State<Messages> {
                       widget.friendId,
                       index == 0,
                       key: ValueKey(docs[index].id),
+                      senderName:
+                          widget.isGroup ? docs[index]['senderName'] : '',
                     ),
                   ],
                 );
@@ -180,6 +229,7 @@ class MessagesState extends State<Messages> {
                 widget.friendId,
                 index == 0,
                 key: ValueKey(docs[index].id),
+                senderName: widget.isGroup ? docs[index]['senderName'] : '',
               );
             },
           ),

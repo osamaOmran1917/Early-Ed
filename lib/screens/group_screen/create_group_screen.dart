@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:early_ed/id_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class CreateGroupScreen extends StatefulWidget {
 
 class _CreateGroupScreenState extends State<CreateGroupScreen> {
   bool isLoading = true;
+  String groupName = '';
   var groupList = [];
   List<QueryDocumentSnapshot<Map<String, dynamic>>> users = [];
   @override
@@ -98,93 +100,88 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           onPressed: groupList.isEmpty
               ? null
               : () {
-                  var addedGroupList = users
-                      .where((user) => groupList
-                          .any((element) => user.data()['userId'] == element))
-                      .toList();
-                  FirebaseFirestore.instance
-                      .collection(FirebaseAuth.instance.currentUser!.uid)
-                      .doc('chatfield')
-                      .collection('chats')
-                      .doc('ASDASDAASasdasdwerwegerASDA1A')
-                      .set(
-                    {
-                      'userid': 'ASDAASasdasdwerwegerASDA1A',
-                      'isGroup': true,
-                      'group_members': groupList,
-                      'username': "Friends group",
-                      'image_url':
-                          'https://firebasestorage.googleapis.com/v0/b/onlychat-e39c6.appspot.com/o/images.jpeg?alt=media&token=0e22ae5c-e37f-4f80-87f7-9877af3de88c',
-                      'messagelength': "0",
-                      'seen': "0",
-                      'lastmessage': 'you create the group',
-                      'lastmessagedate': Timestamp.now(),
+                  showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: const Text("Group name"),
+                        content: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              groupName = value;
+                            });
+                          },
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              groupList.insert(
+                                  0, FirebaseAuth.instance.currentUser!.uid);
+                              var groupId = RandomGenerator.generateGroupID();
+                              List<QueryDocumentSnapshot<Map<String, dynamic>>>
+                                  addedGroupList = users
+                                      .where((user) => groupList.any(
+                                          (element) =>
+                                              user.data()['userId'] == element))
+                                      .toList();
+                              await FirebaseFirestore.instance
+                                  .collection(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  .doc('chatfield')
+                                  .collection('chats')
+                                  .doc(groupId)
+                                  .set(
+                                {
+                                  'userid': groupId,
+                                  'isGroup': true,
+                                  'group_members': groupList,
+                                  'username': groupName,
+                                  'image_url':
+                                      'https://cdn.iconscout.com/icon/free/png-256/free-group-1543496-1305988.png',
+                                  'messagelength': "0",
+                                  'seen': "0",
+                                  'lastmessage': 'you create the group',
+                                  'lastmessagedate': Timestamp.now(),
+                                },
+                              );
+                              for (var element in addedGroupList) {
+                                FirebaseFirestore.instance
+                                    .collection(element.data()['userId'])
+                                    .doc('chatfield')
+                                    .collection('chats')
+                                    .doc(groupId)
+                                    .set(
+                                  {
+                                    'isGroup': true,
+                                    'userid': groupId,
+                                    'group_members': groupList,
+                                    'username': groupName,
+                                    'image_url':
+                                        'https://cdn.iconscout.com/icon/free/png-256/free-group-1543496-1305988.png',
+                                    'messagelength': "0",
+                                    'seen': "0",
+                                    'lastmessage': 'admin added you',
+                                    'lastmessagedate': Timestamp.now(),
+                                  },
+                                );
+                              }
+                              Navigator.of(ctx).pop();
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("Create"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: const Text("Cancel"),
+                          ),
+                        ],
+                      );
                     },
                   );
-                  for (var element in addedGroupList) {
-                    FirebaseFirestore.instance
-                        .collection(element.data()['userId'])
-                        .doc('chatfield')
-                        .collection('chats')
-                        .doc('ASDASDAASasdasdwerwegerASDA1A')
-                        .set(
-                      {
-                        'userid': 'ASDAASasdasdwerwegerASDA1',
-                        'isGroup': true,
-                        'group_members': groupList,
-                        'username': "Friends group",
-                        'image_url':
-                            'https://firebasestorage.googleapis.com/v0/b/onlychat-e39c6.appspot.com/o/images.jpeg?alt=media&token=0e22ae5c-e37f-4f80-87f7-9877af3de88c',
-                        'messagelength': "0",
-                        'seen': "0",
-                        'lastmessage': 'admin added you',
-                        'lastmessagedate': Timestamp.now(),
-                      },
-                    );
-                  }
                 },
           child: const Text("Create")),
     );
   }
-}
-
-Future<void> addContact(String contactId) async {
-  await FirebaseFirestore.instance
-      .collection('userslist')
-      .doc(contactId)
-      .get()
-      .then((document) {
-    FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
-        .doc('chatfield')
-        .collection('chats')
-        .doc(contactId)
-        .set(
-      {
-        'userid': document.data()!['userId'],
-        'username': document.data()!['userName'],
-        'image_url': document.data()!['userImageUrl'],
-        'messagelength': "0",
-        'seen': "0",
-        'lastmessage': '',
-        'lastmessagedate': Timestamp.now(),
-      },
-    );
-    FirebaseFirestore.instance
-        .collection(contactId)
-        .doc('chatfield')
-        .collection('chats')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(
-      {
-        'userid': FirebaseAuth.instance.currentUser!.uid,
-        'username': FirebaseAuth.instance.currentUser!.displayName,
-        'image_url': FirebaseAuth.instance.currentUser!.photoURL,
-        'messagelength': "0",
-        'seen': "0",
-        'lastmessage': '',
-        'lastmessagedate': Timestamp.now(),
-      },
-    );
-  });
 }

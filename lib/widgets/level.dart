@@ -1,4 +1,4 @@
-import 'package:early_ed/screens/StudentsListScreen.dart';
+import 'package:early_ed/screens/studentsListScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +11,13 @@ class Level extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => StudentsListScreen(level: level, isGrades: isGrades,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => StudentsListScreen(
+                      level: level,
+                      isGrades: isGrades,
+                    )));
       },
       child: SizedBox(
         height: 70.h,

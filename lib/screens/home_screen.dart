@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:early_ed/database/my_database.dart';
-import 'package:early_ed/database/user_data_provider.dart';
-import 'package:early_ed/screens/School_info.dart';
+import 'package:early_ed/screens/school_info.dart';
 import 'package:early_ed/screens/user_info.dart';
 import 'package:early_ed/screens/attendance_screen.dart';
 import 'package:early_ed/screens/grades_screen.dart';
@@ -9,7 +8,6 @@ import 'package:early_ed/screens/news/news_screen.dart';
 import 'package:early_ed/screens/select_level_screen.dart';
 import 'package:early_ed/screens/user_chats/user_chats.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
       password = '',
       subject = '',
       type = '',
-      userImageUrl = '', childId = '';
+      userImageUrl = '',
+      childId = '';
   int age = 0, level = 0;
   List<String> mathGrades = [],
       englishGrades = [],
@@ -68,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     //final size =MediaQuery.of(context).size;
-    var userDataProvider = Provider.of<UserDataProvider>(context);
+    // var userDataProvider = Provider.of<UserDataProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.home, size: 35),
@@ -78,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottomLeft: Radius.circular(25)),
         ),
         title: Text(
-          "EARLYED -- ${userName}",
+          "EARLYED -- $userName",
           style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
         ),
         centerTitle: true,
@@ -118,7 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 science: scienceGrades,
                                 studentId: auth.currentUser!.uid,
                                 type: type,
-                                subject: subject, childId: childId)));
+                                subject: subject,
+                                childId: childId)));
               },
               child: Container(
                 margin:
@@ -148,8 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? AttendanceScreen(
                               studentId: auth.currentUser!.uid,
                               type: type,
-                          childId: childId
-                            )
+                              childId: childId)
                           : const SelectLevelScreen(
                               isGrades: false,
                             ),
@@ -212,6 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         age: age,
                         imageUrl: userImageUrl,
                         level: level,
+                        type: type,
                       ),
                     ));
               },
